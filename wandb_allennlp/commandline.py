@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """This script is a hack which hijacks sys.argv when
 the arguments are passed by wandb server. It converts
 them into the format understood by the local scripts
@@ -16,17 +15,6 @@ import wandb
 from pathlib import Path
 import logging
 import os
-
-if os.environ.get("ALLENNLP_DEBUG"):
-    LEVEL = logging.DEBUG
-else:
-    LEVEL = logging.INFO
-
-sys.path.insert(
-    0, os.path.dirname(os.path.abspath(os.path.join(__file__, os.pardir))))
-logging.basicConfig(
-    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s", level=LEVEL)
-
 logger = logging.getLogger(__name__)
 
 
