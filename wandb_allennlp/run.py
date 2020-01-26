@@ -21,7 +21,7 @@ _order = ['subcommand', 'local_config_file', 'serialization-dir']
 
 # These are arguments which will not be sent by the wandb server
 # but allennlp always needs these
-_fixed_kwargs_args = None
+_fixed_kwargs_args = []
 
 
 def include_packages() -> None:
