@@ -39,6 +39,7 @@ _expected_wandb_args = {'tags': 'unspecified', 'tensorboard': False}
 
 
 def wandb_allennlp_run():
+    include_packages()
     setup_wandb(_expected, _pos_args, _order, _fixed_kwargs_args,
                 _expected_wandb_args)
 
