@@ -23,19 +23,16 @@ _order = ['subcommand', 'local_config_file', 'serialization-dir']
 # but allennlp always needs these
 _fixed_kwargs_args = []
 
+_expected_wandb_args = {'tags': 'unspecified', 'tensorboard': False}
+
 
 def include_packages() -> None:
     packages: str = os.environ.get('include_package')
 
     if packages is not None:
-        if _fixed_kwargs_args is None:
-            _fixed_kwargs_args = []
 
         for package in packages.split(','):
             _fixed_kwargs_args.append(('include-package', package.strip()))
-
-
-_expected_wandb_args = {'tags': 'unspecified', 'tensorboard': False}
 
 
 def wandb_allennlp_run():
