@@ -12,6 +12,7 @@ import functools
 import argparse
 from collections import OrderedDict
 import wandb
+from allennlp.run import run as allennlp_run
 from pathlib import Path
 import logging
 import os
@@ -393,17 +394,29 @@ def setup_wandb(expected: Dict[str, Any], pos_args: List[str],
     return run
 
 
-"""
-Use as follows:
+def run():
+    # arguments which SHOULD be present
     expected = {'local_config_file': dict(type=str)}
+
+    # All the arguments from wandb server will be
+    # named arguments. Following specifies which of these
+    # to convert to positional arguments while passing them to allennlp
+    # specify the arguments which are to be converted
+    # example below will create:
+    # $ allennlp <subcommand> <local_config_file> ...
+    # concretely:
+    # $ allennlp train configs/lstm_nli.jsonnet
     pos_args = ['subcommand', 'local_config_file']
+
+    # if arguments have to follow a strict order, specify it here
+    # Most likely, positions arguments should be required to follow a specific order
     order = ['subcommand', 'local_config_file', 'serialization-dir']
-    fixed_kwargs_args = [('include-package', 'datasets'),
-                         ('include-package', 'models')]
+
+    # These are arguments which will not be sent by the wandb server
+    # but allennlp always needs these
+    fixed_kwargs_args = [('include-package', 'models'),
+                         ('include-package', 'wandb_allennlp')]
     expected_wandb_args = {'tags': 'unspecified', 'tensorboard': False}
-
-    setup_wandb(expected, pos_args, order, fixed_kwargs_args, expected_wandb_args)
-    from models.run import run
-    run()
-
-"""
+    setup_wandb(expected, pos_args, order, fixed_kwargs_args,
+                expected_wandb_args)
+    allennlp_run()
