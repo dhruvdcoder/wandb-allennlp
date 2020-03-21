@@ -1,5 +1,5 @@
 name: nli_lstm
-program: run.py
+program: run_wandb_lstm_nli.py
 method: bayes
 metric:
   name: best_validation_accuracy
