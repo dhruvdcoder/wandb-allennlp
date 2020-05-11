@@ -1,0 +1,4 @@
+[default]
+project = wandb_allennlp_test
+base_url = https://api.wandb.ai
+
