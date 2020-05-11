@@ -29,4 +29,4 @@ setup(
     entry_points={
         "console_scripts": ["wandb_allennlp=wandb_allennlp.__main__:run"]
     },
-    python_requires='>=3.6')
+    python_requires='>=3.5')
