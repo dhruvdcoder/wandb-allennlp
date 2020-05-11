@@ -35,6 +35,8 @@ jobs:
     - name: Install Tox and any other packages
       run: pip install tox
     - name: Run Tox
+      env:
+        WANDB_API_KEY : ${{secrets.WANDB_API_KEY}}
       run: tox -e py  # Run tox using the version of Python in `PATH`
           #    - name: Install dependencies
           #      run: |
