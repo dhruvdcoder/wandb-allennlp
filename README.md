@@ -78,7 +78,7 @@ pip install wandb-allennlp
 }
 ```
 
-4. Create a *sweep configuration* file and generate a sweep on the wandb server. For example:
+3. Create a *sweep configuration* file and generate a sweep on the wandb server. For example:
 
 ```
 name: nli_lstm
