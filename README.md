@@ -1,7 +1,9 @@
 # wandb-allennlp
 Utilities and boilerplate code which allows using wandb to tune the hypereparameters for any AllenNLP model without a single line of extra code!
 
+# Status
 
+![Tests](https://github.com/dhruvdcoder/wandb-allennlp/workflows/Tests/badge.svg)
 
 # Quick start
 
