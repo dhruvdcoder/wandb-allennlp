@@ -81,7 +81,7 @@ class LogMetricsToWandb(EpochCallback):
             # the entire config to the file by this time
             logger.info(f"Sending config to wandb...")
             self.config = get_config_from_serialization_dir(
-                trainer._serizalization_dir)
+                trainer._serialization_dir)
             self.wandb.config.update(self.config)
 
     def __call__(
