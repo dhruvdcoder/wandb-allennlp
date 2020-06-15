@@ -32,7 +32,7 @@ class WandbAllenNLPTranslator(Translator):
         self,
         program: str,
         program_args: List[str],
-        translator_args: argparse.Namespace,
+        translator_args: Optional[argparse.Namespace],
         wandb_init: Callable,
     ) -> None:
         run = wandb_init(program, program_args, translator_args)
@@ -43,18 +43,21 @@ class WandbAllenNLPTranslator(Translator):
     def wandb_init(
         self, program: str, program_args: List[str], translator_args: argparse.Namespace
     ) -> Any:
+        if translator_args is not None:
+            if translator_args.wandb_tags:
+                tags = translator_args.wandb_tags.split(",")
+            else:
+                tags = None
 
-        if translator_args.wandb_tags:
-            tags = self.args.wandb_tags.split(",")
+            wandb_run = wandb.init(
+                name=translator_args.wandb_run_name,
+                project=translator_args.wandb_project,
+                entity=translator_args.wandb_entity,
+                tags=tags,
+                sync_tensorboard=not translator_args.wandb_do_not_sync_tensorboard
+            )
         else:
-            tags = None
-
-        wandb_run = wandb.init(
-            name=translator_args.wandb_run_name,
-            project=translator_args.wandb_project,
-            entity=translator_args.wandb_entity,
-            tags=tags,
-        )
+            wandb_run = wandb.init()
         program_args.append(
             f'--serialization-dir={Path(wandb_run.dir)/"training_dumps"}'
         )

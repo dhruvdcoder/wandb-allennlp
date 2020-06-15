@@ -23,8 +23,6 @@ class LogMetricsToWandb(EpochCallback):
         self.batch_end_log_freq = batch_end_log_freq
         self.current_batch_num = -1
         self.current_epoch_num = -1
-        self.global_step = -1
-        self.previous_logged_global_step = -1
         self.previous_logged_epoch = -1
 
     def __call__(
@@ -53,8 +51,6 @@ class LogMetricsToWandb(EpochCallback):
             self.wandb.log(
                 {
                     **metrics,
-                    "epoch_num": self.current_epoch_num,
-                    "batch_num": self.current_batch_num,
                 },
                 step=self.global_step,
             )
