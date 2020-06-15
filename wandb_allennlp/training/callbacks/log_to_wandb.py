@@ -8,7 +8,8 @@ from allennlp.training.trainer import (
 
 logger = logging.getLogger(__name__)
 
-@EpochCallback.register('wandb')
+
+@EpochCallback.register("wandb")
 class LogMetricsToWandb(EpochCallback):
     def __init__(
         self, epoch_end_log_freq: int = 1, batch_end_log_freq: int = 100
@@ -49,10 +50,7 @@ class LogMetricsToWandb(EpochCallback):
         ):
             logger.info("Writing metrics for the epoch to wandb")
             self.wandb.log(
-                {
-                    **metrics,
-                },
-                step=self.global_step,
+                {**metrics, }, step=self.current_epoch_num,
             )
             self.previous_logged_epoch = self.current_epoch_num
 
