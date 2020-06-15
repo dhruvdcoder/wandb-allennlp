@@ -7,7 +7,7 @@ import re
 import wandb
 from pathlib import Path
 from wandb_allennlp.commandline import Translator
-from allennlp.run import run as allennlp_run
+from allennlp.__main__ import run as allennlp_run
 import json
 
 logger = logging.getLogger("allennlp_translator")
