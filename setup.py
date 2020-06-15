@@ -6,6 +6,7 @@ with open("README.md", "r") as fh:
 install_requires = [
     "allennlp>=1.0.0rc5",
     "wandb>=0.8.35",
+    "pyyaml"
 ]
 
 setup(
