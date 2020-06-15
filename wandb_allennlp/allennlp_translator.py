@@ -9,6 +9,7 @@ from pathlib import Path
 from wandb_allennlp.commandline import Translator
 from allennlp.__main__ import run as allennlp_run
 import json
+import yaml
 
 logger = logging.getLogger("allennlp_translator")
 handler = logging.StreamHandler(sys.stdout)
@@ -113,8 +114,9 @@ class WandbAllenNLPTranslator(Translator):
 
             if len(kw_val) == 2:
                 k, v = kw_val
-
-                hparams[pattern.sub("", k)] = v
+                # pass through yaml.load to handle 
+                # booleans, ints and floats correctly
+                hparams[pattern.sub("", k)] = yaml.load(v)
             else:
                 logger.warning(
                     f"{kw_val} not in --key=value form. Will be ignored.")
