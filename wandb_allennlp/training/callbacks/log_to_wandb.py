@@ -1,5 +1,4 @@
 from typing import List, Tuple, Union, Dict, Any, Optional
-from .log import Logger
 import logging
 from allennlp.training.trainer import (
     GradientDescentTrainer,
