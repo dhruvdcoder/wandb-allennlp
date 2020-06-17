@@ -1,4 +1,4 @@
-from tensorboardX import SummaryWritter
+from tensorboardX import SummaryWriter
 import inspect
 from typing import List, Tuple, Union, Dict, Any, Optional
 import json
@@ -43,17 +43,17 @@ class LogArchitectureGraphtoTensorboard(BatchCallback):
         # we cannot create the writer here because
         # the new design of callbacks do not pass
         # serialization directory to the callback constructors 🤷 !!
-        self._writer: Optional[SummaryWritter] = None
+        self._writer: Optional[SummaryWriter] = None
         self._serialization_dir: Optional[Path] = None
         self.logged_once: bool = False
 
     @property
-    def summary_writer(self) -> SummaryWritter:
+    def summary_writer(self) -> SummaryWriter:
         """We never return none"""
 
         if (self._serialization_dir is not None) and self._writer is None:
             # we are ready to create
-            self._writer = SummaryWritter(self._serialization_dir)
+            self._writer = SummaryWriter(self._serialization_dir)
         elif self._writer is None:
             raise RuntimeError(
                 "Cannot access summary_writer without first calling "
