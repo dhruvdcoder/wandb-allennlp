@@ -55,10 +55,13 @@ class WandbAllenNLPTranslator(Translator):
                 project=translator_args.wandb_project,
                 entity=translator_args.wandb_entity,
                 tags=tags,
-                sync_tensorboard=not translator_args.wandb_do_not_sync_tensorboard
+                sync_tensorboard=False
             )
         else:
             wandb_run = wandb.init()
+        # just use the log files and do not dynamically patch tensorboard as it messes up the
+        # the global_step and breaks the normal use of wandb.log() 
+        wandb.tensorboard.patch(save=True, tensorboardX=False)
         program_args.append(
             f'--serialization-dir={Path(wandb_run.dir)/"training_dumps"}'
         )
