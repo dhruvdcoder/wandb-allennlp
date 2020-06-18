@@ -9,6 +9,7 @@ from pathlib import Path
 from wandb_allennlp.commandline import Translator
 from allennlp.run import run as allennlp_run
 import json
+import yaml
 logger = logging.getLogger('allennlp_translator')
 handler = logging.StreamHandler(sys.stdout)
 handler.setFormatter(
