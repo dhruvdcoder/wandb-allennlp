@@ -86,8 +86,9 @@ class AllenNLPSweepTranslator(AllenNLPCommandLauncherMixin, Translator):
 
             if len(kw_val) == 2:
                 k, v = kw_val
-
-                hparams[pattern.sub('', k)] = v
+                # pass through yaml.load to handle 
+                # booleans, ints and floats correctly
+                hparams[pattern.sub("", k)] = yaml.load(v)    
             else:
                 logger.warning(
                     f"{kw_val} not in --key=value form. Will be ignored.")
