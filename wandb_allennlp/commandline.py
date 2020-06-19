@@ -2,15 +2,16 @@
 a target format (currently supporting AllenNLP commands only)
 """
 import argparse
-from typing import Tuple, List, Optional
+from typing import Tuple, List, Optional, Callable, Any, Union
 import logging
 import sys
 import os
 
-logger = logging.getLogger('translator')
+logger = logging.getLogger("translator")
 handler = logging.StreamHandler(sys.stdout)
 handler.setFormatter(
-    logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s"))
+    logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s")
+)
 
 logger.addHandler(handler)
 
@@ -28,8 +29,9 @@ def get_parser() -> argparse.ArgumentParser:
 
 
 def create_dynamic_parser(
-        args: Optional[List[str]] = None,
-        known_args_parser: Optional[argparse.ArgumentParser] = None):
+    args: Optional[List[str]] = None,
+    known_args_parser: Optional[argparse.ArgumentParser] = None,
+):
 
     if known_args_parser is None:
         known_args_parser = argparse.ArgumentParser()
@@ -40,7 +42,7 @@ def create_dynamic_parser(
     for unknown_arg in unknown_args:
         # expect them to be like --name=value
         try:
-            name, value = unknown_arg.split('=')
+            name, value = unknown_arg.split("=")
         except Exception as e:
             raise ValueError(
                 "{} no in --key=value form".format(unknown_arg)) from e
@@ -60,21 +62,28 @@ class ExecvpLauncherMixin:
 
 
 class Translator:
-    def __init__(self):
+    def __init__(self) -> None:
         self.parser = self.get_parser()
-        self.args = None
+        self.args: Union[None, argparse.Namespace] = None
 
     @classmethod
-    def get_parser(cls, parser: argparse.ArgumentParser = None):
+    def get_parser(
+        cls, parser: argparse.ArgumentParser = None
+    ) -> argparse.ArgumentParser:
+        """
+        Add translator specific args here
+        """
+
         if parser is None:
             parser = argparse.ArgumentParser()
         parser.add_argument(
-            '--interpreter',
+            "--interpreter",
             type=str,
             help="Path to or name of interpreter "
             "like python3 etc."
             "If not passed, the target program will not "
-            "be invoked with an explicit interpreter")
+            "be invoked with an explicit interpreter",
+        )
         # Add any arguments you want to pass to the translater here using
         # parser.add_argument()
         # for instance if you want to do something like:
@@ -84,28 +93,45 @@ class Translator:
 
         return parser
 
-    def _parse_args(self,
-                    args: List[str]) -> Tuple[argparse.Namespace, List[str]]:
+    def _parse_args(
+        self, args: Optional[List[str]] = None
+    ) -> Tuple[argparse.Namespace, List[str]]:
 
         translator_args, program_args = self.parser.parse_known_args(args)
         self.args = translator_args
 
         return translator_args, program_args
 
-    def translate(self, translator_args: argparse.Namespace,
-                  program_args: List[str]) -> Tuple[str, List[str]]:
+    def translate(
+        self, translator_args: argparse.Namespace, program_args: List[str]
+    ) -> Tuple[str, List[str]]:
         """Return prog and translated args"""
         raise NotImplementedError
 
-    def _launch_process(self, program: str, program_args: List[str]) -> None:
+    def _launch_process(
+        self,
+        program: str,
+        program_args: List[str],
+        translator_args: Union[None, argparse.Namespace],
+        wandb_init: Callable,
+    ) -> None:
         pass
 
-    def _translate_only(self, cmd_args: List[str]) -> Tuple[str, List[str]]:
+    def wandb_init(
+        self, program: str, program_args: List[str], translator_args: argparse.Namespace
+    ) -> Any:
+        pass
+
+    def _translate_only(
+        self, cmd_args: Optional[List[str]] = None
+    ) -> Tuple[str, List[str]]:
         translator_args, program_args = self._parse_args(cmd_args)
         prog, args = self.translate(translator_args, program_args)
 
         return prog, args
 
-    def __call__(self, cmd_args: List[str] = None):
+    def __call__(self, cmd_args: List[str] = None) -> None:
 
-        self._launch_process(*self._translate_only(cmd_args), self.args)
+        self._launch_process(
+            *self._translate_only(cmd_args), self.args, self.wandb_init
+        )
