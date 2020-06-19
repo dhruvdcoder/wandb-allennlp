@@ -12,6 +12,7 @@ import json
 import yaml
 
 logger = logging.getLogger("allennlp_translator")
+
 handler = logging.StreamHandler(sys.stdout)
 handler.setFormatter(
     logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s"))
@@ -110,9 +111,11 @@ class WandbAllenNLPTranslator(Translator):
 
             if len(kw_val) == 2:
                 k, v = kw_val
+
                 # pass through yaml.load to handle
                 # booleans, ints and floats correctly
                 hparams[pattern.sub("", k)] = yaml.load(v)
+
             else:
                 logger.warning(
                     f"{kw_val} not in --key=value form. Will be ignored.")
