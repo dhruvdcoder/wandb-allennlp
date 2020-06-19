@@ -20,7 +20,7 @@ def _flatten_dict(params: Dict[str, Any], delimiter: str = ".") -> Dict[str, Val
     Flatten hierarchical dict, e.g. ``{'a': {'b': 'c'}} -> {'a.b': 'c'}``.
     Args:
         params: Dictionary containing the hyperparameters
-        delimiter: Delimiter to express the hierarchy. Defaults to ``'/'``.
+        delimiter: Delimiter to express the hierarchy. Defaults to ``'.'``.
     Returns:
         Flattened dict.
     """
