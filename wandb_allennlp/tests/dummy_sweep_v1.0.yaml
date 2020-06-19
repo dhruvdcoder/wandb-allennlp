@@ -1,11 +1,11 @@
-name: dummy_test_console_script
+name: dummy_test_console_script_v1.0
 program: wandb_allennlp
 command:
   - ${program} #omit the interpreter as we use allennlp train command directly
   - "--subcommand=train"
   - "--include-package=models" # add all packages containing your registered classes here
   - "--include-package=allennlp_models"
-  - "--config_file=configs/dummy.jsonnet"
+  - "--config_file=configs/dummy_v1.0.jsonnet"
   - ${args}
 method: bayes
 metric:

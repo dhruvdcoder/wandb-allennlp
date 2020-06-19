@@ -1,7 +1,7 @@
 import sys
 import os
 import json
-from wandb_allennlp.allennlp_translator import AllenNLPSweepTranslator
+from wandb_allennlp.allennlp_translator import WandbAllenNLPTranslator
 
 os.environ['WANDB_ALLENNLP_DEBUG'] = '1'
 
@@ -21,7 +21,7 @@ def test_translation():
     outputs = [('allennlp', [
         'allennlp', 'train', 'config.json', '--overrides={"arg1":"value1"}'
     ])]
-    base_translator = AllenNLPSweepTranslator()
+    base_translator = WandbAllenNLPTranslator()
 
     for inp, out in zip(inputs, outputs):
         translated = base_translator._translate_only(inp)
