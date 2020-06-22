@@ -1,5 +1,17 @@
 # wandb-allennlp
-Utilities and boilerplate code which allows using wandb to tune the hypereparameters for any AllenNLP model without a single line of extra code!
+Utilities and boilerplate code which allows using [Weights & Biases](https://www.wandb.com/) to tune the hypereparameters for any AllenNLP model **without a single line of extra code!**
+
+# Features
+
+1. Log a single run or a hyperparameter search sweep without any extra code, just using configuration files.
+
+2. Use [Weights & Biases](https://www.wandb.com/) bayesian hyperparameter search engine + hyperband in any AllenNLP project.
+
+3. Works with any AllenNLP version > 0.9 (including the latest 1.0.0).
+
+4. (Coming Soon) Running parallel bayesian hyperparameter search for any AllenNLP model on a slurm managed cluster using [Weights & Biases](https://www.wandb.com/). Again without a single line of extra code.
+
+5. (Coming Soon) Support for parameter tying to set values for interdependent hyperparameters like hidden dimension for consecutive layers.
 
 # Status
 
@@ -7,13 +19,72 @@ Utilities and boilerplate code which allows using wandb to tune the hypereparame
 
 # Quick start
 
-1. Install the package
+## Installation
 
 ```
 pip install wandb-allennlp
 ```
 
-2. Create your model using AllenNLP along with a *training configuration* file. For example:
+## Log a single run
+
+1. Create your model using AllenNLP along with a *training configuration* file as you would normally do.
+
+2. Add a trainer callback in your config file. Use one of the following based on your AllenNLP version:
+
+For allennlp v0.9:
+
+```
+...,
+
+trainer: {
+    type: 'callback',
+    callbacks: [
+      ...,
+      
+      {
+        type: 'log_metrics_to_wandb',
+      },
+      
+      ...,
+    ],
+    ...,
+}
+...
+...
+```
+
+For allennlp v1.x :
+
+```
+...
+
+trainer: {
+    epoch_callbacks: [
+      ...,
+      
+      {
+        type: 'log_metrics_to_wandb',
+      },
+      
+      ...,
+    ],
+    ...,
+}
+...
+...
+```
+
+2. Execute the following command instead of `allennlp train`:
+
+```
+wandb_allennlp --subcommand=train --config_file=model_configs/my_config.jsonnet --include-package=package_with_my_registered_classes --include-package=another_package --wandb_run_name=my_first_run --wandb_tags=any,set,of,non-unique,tags,that,identify,the,run,without,spaces
+
+```
+
+
+## Hyperparameter Search
+
+1. Create your model using AllenNLP along with a *training configuration* file as you would normally do. For example:
 
 ```
 {
@@ -78,7 +149,7 @@ pip install wandb-allennlp
 }
 ```
 
-3. Create a *sweep configuration* file and generate a sweep on the wandb server. For example:
+2. Create a *sweep configuration* file and generate a sweep on the wandb server. For example:
 
 ```
 name: nli_lstm
@@ -125,16 +196,16 @@ parameters:
     value: nli-lstm
 ```
 
-5. Set the necessary environment variables.
+4. Set the necessary environment variables.
 
 ```
 export DATA_DIR=./data
 ```
 
-6. Start the search agents.
+5. Start the search agents.
 
 ```
 wandb agent <sweep_id>
 ```
 
-For detailed instructions and example see [this tutorial](http://dhruveshp.com/machinelearning/wandb-allennlp/).
+For detailed instructions and example see [this tutorial](http://dhruveshp.com/machinelearning/wandb-allennlp/). For an example using [allennlp-models](https://github.com/allenai/allennlp-models) see the [examples](examples) directory.
