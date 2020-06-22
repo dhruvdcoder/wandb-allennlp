@@ -68,4 +68,4 @@ wandb agent <sweep-id>
 
 6. Look at the results! Results for the presented examples can be found [here](https://app.wandb.ai/dhruveshpate/wandb_allennlp_models_demo/sweeps/vwwu3sa0).
 
-![Parallel Coordinate Chart for the example](examples/parallel_graph.png)
+
