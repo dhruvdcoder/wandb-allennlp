@@ -2,6 +2,12 @@
 
 ## Running Hyperparameter search for AllenNLP models from allennlp-models repository.
 
+0. Install wandb-allennlp
+
+```
+pip install wandb-allennlp
+```
+
 1. Install the models repository (use virtual environment or conda)
 
 ```
