@@ -59,7 +59,7 @@ if allennlp_version_major >= 1:
 
             """
 
-            if self.config is None:
+            if is_master and (self.config is None):
                 self.update_config(trainer)
 
             self.current_epoch_num += 1
