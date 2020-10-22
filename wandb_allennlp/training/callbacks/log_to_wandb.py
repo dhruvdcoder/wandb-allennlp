@@ -25,8 +25,7 @@ if allennlp_version_major >= 1:
                 self,
                 epoch_end_log_freq: int = 1,
                 watch_model: bool = False,
-                watch_log_freq: int = 1000,
-                trainer: GradientDescentTrainer = None
+                watch_log_freq: int = 1000
         ) -> None:
             # import wandb here to be sure that it was initialized
             # before this line was executed
