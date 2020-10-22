@@ -24,7 +24,8 @@ if allennlp_version_major >= 1:
         def __init__(
                 self,
                 epoch_end_log_freq: int = 1,
-                watch_model = False,
+                watch_model: bool = False,
+                watch_log_freq: int = 1000,
                 trainer: GradientDescentTrainer = None
         ) -> None:
             # import wandb here to be sure that it was initialized
@@ -40,8 +41,9 @@ if allennlp_version_major >= 1:
             self.current_epoch_num = -1
             self.previous_logged_epoch = -1
 
-            if watch_model and trainer is not None:
-                self.wandb.watch(trainer.model)
+            self.watch_log_freq = watch_log_freq
+            self.watch_model = watch_model
+            self.is_watching = False
 
         def update_config(self, trainer: GradientDescentTrainer) -> None:
             if self.config is None:
@@ -66,6 +68,11 @@ if allennlp_version_major >= 1:
 
             if is_master and (self.config is None):
                 self.update_config(trainer)
+
+            if self.watch_model and not self.is_watching:
+                logger.info("Watching trainer model with wandb")
+                self.wandb.watch(trainer.model, log_freq=self.watch_log_freq)
+                self.is_watching = True
 
             self.current_epoch_num += 1
 
