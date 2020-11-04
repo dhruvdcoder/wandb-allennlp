@@ -17,10 +17,13 @@ def test_sweep(script_runner):
     assert 'wandb: Program failed with code 1' not in ret.stderr
 
 def test_parameter_tying(script_runner):
-    ret = script_runner.run(
-            'wandb', 'agent', '--count=1',
-            'dhruveshpate/wandb-allennlp-wandb_allennlp_tests/19cjwr2q')
+    major, minor = get_allennlp_major_minor_versions()
 
-    assert ret.success
-    assert 'wandb: Program ended successfully.' in ret.stderr
-    assert 'wandb: Program failed with code 1' not in ret.stderr
+    if major >=1:
+        ret = script_runner.run(
+            'wandb', 'agent', '--count=1',
+            'dhruveshpate/wandb-allennlp-wandb_allennlp_tests/cwwdov66')
+
+        assert ret.success
+        assert 'wandb: Program ended successfully.' in ret.stderr
+        assert 'wandb: Program failed with code 1' not in ret.stderr

@@ -39,6 +39,7 @@ class WandbAllenNLPTranslator(Translator):
         run = wandb_init(program, program_args, translator_args)
         sys.argv = program_args
         logger.info(f"sys.argv before running allennlp command: \n{sys.argv}")
+        logger.info(f"os.environ before running allennlp command:\n{os.environ}")
         allennlp_run()
 
     def wandb_init(self, program: str, program_args: List[str],

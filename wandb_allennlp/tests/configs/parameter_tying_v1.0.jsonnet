@@ -1,7 +1,7 @@
 local data_path = std.extVar('DATA_PATH');
 local a = std.parseJson(std.extVar('a'));
 local bool_value = std.parseJson(std.extVar('bool_value'));
-local int_value = std.parseJson(std.extVar('int_value'))
+local int_value = std.parseJson(std.extVar('int_value'));
 {
   dataset_reader: {
     type: 'snli',
