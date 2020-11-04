@@ -11,7 +11,7 @@ Utilities and boilerplate code which allows using [Weights & Biases](https://www
 
 4. (Coming Soon) Running parallel bayesian hyperparameter search for any AllenNLP model on a slurm managed cluster using [Weights & Biases](https://www.wandb.com/). Again without a single line of extra code.
 
-5. (Coming Soon) Support for parameter tying to set values for interdependent hyperparameters like hidden dimension for consecutive layers.
+5. (Coming Soon) Support for parameter tying to set values for interdependent hyperparameters like hidden dimension for consecutive layers. See "Advanced Use" section below.
 
 # Status
 
@@ -40,11 +40,11 @@ trainer: {
     type: 'callback',
     callbacks: [
       ...,
-      
+
       {
         type: 'log_metrics_to_wandb',
       },
-      
+
       ...,
     ],
     ...,
@@ -61,11 +61,11 @@ For allennlp v1.x :
 trainer: {
     epoch_callbacks: [
       ...,
-      
+
       {
         type: 'log_metrics_to_wandb',
       },
-      
+
       ...,
     ],
     ...,
@@ -207,5 +207,49 @@ export DATA_DIR=./data
 ```
 wandb agent <sweep_id>
 ```
+
+
+# Advanced Use
+
+## Parameter tying
+
+1. Define a new jsonnet config file with source/common parameters at the top level. Set the values of these through `extVar`. Make sure to use `parseJson` to get the correct type on all of these variables.
+
+```
+
+local data_path = std.extVar('DATA_PATH');
+
+\\ Special common or tying parameters
+local a = std.parseJson(std.extVar('a'));
+local bool_value = std.parseJson(std.extVar('bool_value'));
+local int_value = std.parseJson(std.extVar('int_value'));
+
+
+{
+  dataset_reader: {
+    ...
+  },
+  ...
+  model: {
+    type: 'parameter-tying',
+    a: a,
+    b: a, // a tied parameter
+    bool_value: bool_value,
+    bool_value_not: !bool_value, // tied parameter
+    int_value: int_value,
+    int_value_10: int_value + 10, // another tied parameter
+    ...
+
+  },
+  ...
+  trainer: {
+    ...
+    epoch_callbacks: ['log_metrics_to_wandb'],
+  },
+}
+```
+
+
+
 
 For detailed instructions and example see [this tutorial](http://dhruveshp.com/machinelearning/wandb-allennlp/). For an example using [allennlp-models](https://github.com/allenai/allennlp-models) see the [examples](examples) directory.
