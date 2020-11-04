@@ -216,7 +216,7 @@ wandb agent <sweep_id>
 1. Define a new jsonnet config file with source/common parameters at the top level. Set the values of these through `extVar`. Make sure to use `parseJson` to get the correct type on all of these variables.
 
 ```
-
+\\ model_config.jsonnet
 local data_path = std.extVar('DATA_PATH');
 
 \\ Special common or tying parameters
@@ -247,6 +247,26 @@ local int_value = std.parseJson(std.extVar('int_value'));
     epoch_callbacks: ['log_metrics_to_wandb'],
   },
 }
+```
+
+In your sweep config, use `env.` to set these top level parameters.
+
+```
+#sweep.yaml
+
+...
+parameters:
+  # hyperparameters start with overrides
+  # Ranges
+  # Add env. to tell that it is a top level parameter
+  env.a:
+    min: 1
+    max: 10
+    distribution: uniform
+  env.bool_value:
+    values: [true, false]
+  env.int_value:
+    values: [-1, 0, 1, 10]
 ```
 
 
