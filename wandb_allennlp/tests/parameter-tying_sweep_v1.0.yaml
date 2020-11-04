@@ -1,0 +1,25 @@
+name: parameter_tying_test_console_script_v1.0
+program: wandb_allennlp
+command:
+  - ${program} #omit the interpreter as we use allennlp train command directly
+  - "--subcommand=train"
+  - "--include-package=models" # add all packages containing your registered classes here
+  - "--include-package=allennlp_models"
+  - "--config_file=configs/parameter_tying_v1.0.jsonnet"
+  - ${args}
+method: bayes
+metric:
+  name: training_loss
+  goal: minimize
+parameters:
+  # hyperparameters start with overrides
+  # Ranges
+  # Add env. to tell that it is a top level parameter
+  env.a:
+    min: 1
+    max: 10
+    distribution: uniform
+  env.bool_value:
+    values: [true, false]
+  env.int_value:
+    values: [-1, 0, 1, 10]

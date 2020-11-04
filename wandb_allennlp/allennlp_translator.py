@@ -103,6 +103,7 @@ class WandbAllenNLPTranslator(Translator):
         """At this point only hyperparameter overrides remain
         """
         hparams = {}
+        env = {} # params that start with env.
         # patter for starting -- or - in --key=value
         pattern = re.compile(r"-{1,2}")
 
@@ -114,11 +115,22 @@ class WandbAllenNLPTranslator(Translator):
 
                 # pass through yaml.load to handle
                 # booleans, ints and floats correctly
-                hparams[pattern.sub("", k)] = yaml.load(v)
+                # yaml.load with output correct python types
+                v = yaml.load(v)
+
+                if k.startswith("--env.") or k.startswith("-env."):
+                    # split on . and remove the "--env." in the begining
+                    # use json dumps to convert the python type (int, float, bool)
+                    # to string which can be understood by a json reader
+                    # the environment variables have to be stored as string
+                    env[".".join(k.split(".")[1:])] = json.dumps(v)
+                else:
+                    hparams[pattern.sub("", k)] = v
 
             else:
                 logger.warning(
                     f"{kw_val} not in --key=value form. Will be ignored.")
+
         program = "allennlp"
         args = [
             program,
@@ -130,5 +142,8 @@ class WandbAllenNLPTranslator(Translator):
 
         for package in translator_args.include_package:
             args.append(f"--include-package={package}")
+
+        # set the env
+        os.environ.update(env)
 
         return program, args
