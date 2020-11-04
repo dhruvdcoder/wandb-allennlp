@@ -3,11 +3,11 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-install_requires = ["allennlp>=0.9.0", "wandb>=0.8.35", "pyyaml"]
+install_requires = ["allennlp>=0.9.0", "wandb>=0.8.35", "pyyaml", "tensorboard"]
 
 setup(
     name='wandb_allennlp',
-    version='0.2.0',
+    version='0.2.1',
     author="Dhruvesh Patel",
     author_email="1793dnp@gmail.com",
     description='Utilities to use allennlp with wandb',
