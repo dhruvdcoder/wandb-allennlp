@@ -38,7 +38,7 @@ def flatten_dict(params: Dict[str, Any],
         elif isinstance(inp, list):
             for i, val in enumerate(inp):
                 populate(val, deepcopy(prefix) + [str(i)])
-        elif isinstance(inp, (str, float, int, bool)):
+        elif isinstance(inp, (str, float, int, bool)) or (inp is None):
             output[delimiter.join(prefix)] = inp
         else:  # unsupported type
             raise ValueError(
