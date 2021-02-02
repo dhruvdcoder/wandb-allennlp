@@ -7,9 +7,15 @@ def test_sweep(script_runner):
     if major < 1 and minor >= 9:
         ret = script_runner.run('wandb', 'agent', '--count=1',
                                 'dhruveshpate/wandb_allennlp_test/p285xdjw')
-    else:
+    elif major < 2:
         ret = script_runner.run(
             'wandb', 'agent', '--count=1',
+            'dhruveshpate/wandb-allennlp-wandb_allennlp_tests/ueh5q858')
+    else:
+        # tests for version 2.x
+        ret = script_runner.run(
+            'wandb', 'agent', '--count=1',
+            # FIXME: needs new sweep with 2.0?
             'dhruveshpate/wandb-allennlp-wandb_allennlp_tests/ueh5q858')
 
     assert ret.success
@@ -22,6 +28,12 @@ def test_parameter_tying(script_runner):
     if major >=1:
         ret = script_runner.run(
             'wandb', 'agent', '--count=1',
+            'dhruveshpate/wandb-allennlp-wandb_allennlp_tests/cwwdov66')
+    else:
+        # tests for version 2.x
+        ret = script_runner.run(
+            'wandb', 'agent', '--count=1',
+            # FIXME: needs new sweep with 2.0?
             'dhruveshpate/wandb-allennlp-wandb_allennlp_tests/cwwdov66')
 
         assert ret.success
