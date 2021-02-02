@@ -74,6 +74,27 @@ trainer: {
 ...
 ```
 
+For allennlp v2.x :
+
+```
+...
+
+trainer: {
+    callbacks: [
+      ...,
+
+      {
+        type: 'log_metrics_to_wandb',
+      },
+
+      ...,
+    ],
+    ...,
+}
+...
+...
+```
+
 2. Execute the following command instead of `allennlp train`:
 
 ```
@@ -244,7 +265,7 @@ local int_value = std.parseJson(std.extVar('int_value'));
   ...
   trainer: {
     ...
-    epoch_callbacks: ['log_metrics_to_wandb'],
+    callbacks: ['log_metrics_to_wandb'],
   },
 }
 ```

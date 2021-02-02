@@ -14,7 +14,82 @@ Value = Union[int, float, bool, str]
 allennlp_version_major, allennlp_version_minor =\
     get_allennlp_major_minor_versions()
 
-if allennlp_version_major >= 1:
+if allennlp_version_major >= 2:
+    from allennlp.training.trainer import (  # noqa
+        GradientDescentTrainer, TrainerCallback
+    )
+
+    @TrainerCallback.register("log_metrics_to_wandb")
+    class LogMetricsToWandb(TrainerCallback):
+        def __init__(
+                self,
+                serialization_dir: str,
+                epoch_end_log_freq: int = 1,
+                watch_model: bool = False,
+                watch_log_freq: int = 1000
+        ) -> None:
+            # import wandb here to be sure that it was initialized
+            # before this line was executed
+            super().__init__(serialization_dir)
+            import wandb  # type: ignore
+
+            self.config: Optional[Dict[str, Value]] = None
+
+            self.wandb = wandb
+            self.epoch_end_log_freq = 1
+            self.current_batch_num = -1
+            self.current_epoch_num = -1
+            self.previous_logged_epoch = -1
+
+            self.watch_log_freq = watch_log_freq
+            self.watch_model = watch_model
+            self.is_watching = False
+
+        def update_config(self, trainer: GradientDescentTrainer) -> None:
+            if self.config is None:
+                # we assume that allennlp train pipeline would have written
+                # the entire config to the file by this time
+                logger.info(f"Sending config to wandb...")
+                self.config = get_config_from_serialization_dir(
+                    trainer._serialization_dir)
+                self.wandb.config.update(self.config)
+
+        def on_epoch(
+                self,
+                trainer: GradientDescentTrainer,
+                metrics: Dict[str, Any],
+                epoch: int,
+                is_primary: bool,
+                **kwargs,
+        ) -> None:
+            """ This should run after all the epoch end metrics have
+            been computed by the metric_tracker callback.
+
+            """
+
+            if is_primary and (self.config is None):
+                self.update_config(trainer)
+
+            if self.watch_model and not self.is_watching:
+                logger.info("Watching trainer model with wandb")
+                self.wandb.watch(trainer.model, log_freq=self.watch_log_freq)
+                self.is_watching = True
+
+            self.current_epoch_num += 1
+
+            if (is_primary
+                    and (self.current_epoch_num - self.previous_logged_epoch)
+                    >= self.epoch_end_log_freq):
+                logger.info("Writing metrics for the epoch to wandb")
+                self.wandb.log(
+                    {
+                        **metrics,
+                    },
+                    step=self.current_epoch_num,
+                )
+                self.previous_logged_epoch = self.current_epoch_num
+
+elif allennlp_version_major >= 1:
     from allennlp.training.trainer import (  # noqa
         GradientDescentTrainer, BatchCallback, EpochCallback,
     )

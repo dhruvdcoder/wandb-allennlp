@@ -58,6 +58,26 @@ trainer: {
 ...
 ```
 
+**and the following for allennlp v2.x :**
+```
+...
+
+trainer: {
+    callbacks: [
+      ...,
+      
+      {
+        type: 'log_metrics_to_wandb',
+      },
+      
+      ...,
+    ],
+    ...,
+}
+...
+...
+```
+
 3. Create a sweep config file. See [sweep_configs/pair_classification/decomposable_attention.yaml](examples/sweep_configs/pair_classification/decomposable_attention.yaml) for the example config.
 
 4. Create the sweep.
