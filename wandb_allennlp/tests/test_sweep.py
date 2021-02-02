@@ -15,8 +15,7 @@ def test_sweep(script_runner):
         # tests for version 2.x
         ret = script_runner.run(
             'wandb', 'agent', '--count=1',
-            # FIXME: needs new sweep with 2.0?
-            'dhruveshpate/wandb-allennlp-wandb_allennlp_tests/ueh5q858')
+            'dhruveshpate/wandb-allennlp-wandb_allennlp_tests/sr93i89c')
 
     assert ret.success
     assert 'wandb: Program ended successfully.' in ret.stderr
@@ -33,8 +32,7 @@ def test_parameter_tying(script_runner):
         # tests for version 2.x
         ret = script_runner.run(
             'wandb', 'agent', '--count=1',
-            # FIXME: needs new sweep with 2.0?
-            'dhruveshpate/wandb-allennlp-wandb_allennlp_tests/cwwdov66')
+            'dhruveshpate/wandb-allennlp-wandb_allennlp_tests/l64gbroc')
 
         assert ret.success
         assert 'wandb: Program ended successfully.' in ret.stderr
