@@ -73,6 +73,6 @@
     optimizer: {
       type: 'adagrad',
     },
-    epoch_callbacks: [{ type: 'log_metrics_to_wandb' }],  //  The only extra line in the config!!!
+    callbacks: [{ type: 'log_metrics_to_wandb' }],  //  The only extra line in the config!!!
   },
 }
