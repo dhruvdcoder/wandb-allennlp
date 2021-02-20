@@ -1,3 +1,4 @@
+wandb/
 wandb_allennlp/tests/wandb/
 
 # Byte-compiled / optimized / DLL files
