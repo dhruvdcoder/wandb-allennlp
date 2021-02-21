@@ -1,5 +1,3 @@
-W&B + AllenNLP
-=========================
 
 .. mdinclude:: ../README.md
 

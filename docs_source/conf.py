@@ -17,7 +17,7 @@ extensions = [
 ]
 source_suffix = [".rst", ".md"]
 master_doc = "index"
-project = "Wandb+AllenNLP"
+project = "wandb-allennlp"
 copyright = "Dhruvesh Patel"
 exclude_patterns = ["_build", "**/docs", "**/.docs", "**/tests", "tests/**"]
 pygments_style = "sphinx"
@@ -53,7 +53,7 @@ autoapi_keep_files = True
 # and https://github.com/data-describe/data-describe/blob/master/docs/make.py
 # multiversion
 # Multiversioning
-smv_tag_whitelist = r"^v\d+\.\d+\.\d+b?\d*$"
+smv_tag_whitelist = r"^v\d+\.\d+\.[456789]+b?\d*$"
 smv_branch_whitelist = r"^.*master$"
 smv_remote_whitelist = r"^.*$"
 templates_path = [
