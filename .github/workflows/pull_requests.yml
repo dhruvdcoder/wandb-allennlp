@@ -12,9 +12,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
-      continue-on-error: ${{ matrix.experimental }}
       matrix:
         python-version: [3.7, 3.8]
         allennlp-version: ["2.0.0"]
