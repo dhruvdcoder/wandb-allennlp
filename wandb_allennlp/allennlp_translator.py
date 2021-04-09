@@ -61,7 +61,11 @@ class WandbAllenNLPTranslator(Translator):
             wandb_run = wandb.init()
         # just use the log files and do not dynamically patch tensorboard as it messes up the
         # the global_step and breaks the normal use of wandb.log()
-        wandb.tensorboard.patch(save=True, tensorboardX=False)
+        # after wandb version 0.10.20
+        # any call to patch either through sync_tensorboard or .patch()
+        # messes up the log. So we drop it completely. Wandb somehow still
+        # syncs the tensorboard log folder along with the other folders.
+        # wandb.tensorboard.patch(save=True, tensorboardX=False)
         program_args.append(
             f'--serialization-dir={Path(wandb_run.dir)/"training_dumps"}')
 
