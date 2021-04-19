@@ -35,7 +35,16 @@ def translate(
             # pass through yaml.load to handle
             # booleans, ints and floats correctly
             # yaml.load with output correct python types
-            v = yaml.load(v)
+            loader = yaml.SafeLoader
+            loader.add_implicit_resolver(  # type: ignore
+                "tag:yaml.org,2002:float",
+                re.compile(
+                    """^(?:[-+]?(?:[0-9][0-9_]*)\\.[0-9_]*(?:[eE][-+]?[0-9]+)?|[-+]?(?:[0-9][0-9_]*)(?:[eE][-+]?[0-9]+)|\\.[0-9_]+(?:[eE][-+][0-9]+)?|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$""",
+                    re.X,
+                ),
+                list("-+0123456789."),
+            )
+            v = yaml.load(v, Loader=loader)
 
             if k.startswith("--env.") or k.startswith("-env."):
                 # split on . and remove the "--env." in the begining
@@ -90,7 +99,11 @@ class TrainWithWandb(WandbParserBase):
         run = wandb.init(**wandb_args_dict)
         # just use the log files and do not dynamically patch tensorboard as it messes up the
         # the global_step and breaks the normal use of wandb.log()
-        wandb.tensorboard.patch(save=True, tensorboardX=False)
+        # after wandb version 0.10.20
+        # any call to patch either through sync_tensorboard or .patch()
+        # messes up the log. So we drop it completely. Wandb somehow still
+        # syncs the tensorboard log folder along with the other folders.
+        # wandb.tensorboard.patch(save=True, tensorboardX=False)
         args.serialization_dir = f"{run.dir}/training_dump"  # type:ignore
 
         return run  # type:ignore
