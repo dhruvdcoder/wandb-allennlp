@@ -126,7 +126,7 @@ class WandbAllenNLPTranslator(Translator):
                     ),
                     list("-+0123456789."),
                 )
-                v = yaml.load(v)
+                v = yaml.load(v, Loader=loader)
 
                 if k.startswith("--env.") or k.startswith("-env."):
                     # split on . and remove the "--env." in the begining
