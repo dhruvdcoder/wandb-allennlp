@@ -117,6 +117,15 @@ class WandbAllenNLPTranslator(Translator):
                 # pass through yaml.load to handle
                 # booleans, ints and floats correctly
                 # yaml.load with output correct python types
+                loader = yaml.SafeLoader
+                loader.add_implicit_resolver(  # type: ignore
+                    "tag:yaml.org,2002:float",
+                    re.compile(
+                        """^(?:[-+]?(?:[0-9][0-9_]*)\\.[0-9_]*(?:[eE][-+]?[0-9]+)?|[-+]?(?:[0-9][0-9_]*)(?:[eE][-+]?[0-9]+)|\\.[0-9_]+(?:[eE][-+][0-9]+)?|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$""",
+                        re.X,
+                    ),
+                    list("-+0123456789."),
+                )
                 v = yaml.load(v)
 
                 if k.startswith("--env.") or k.startswith("-env."):
