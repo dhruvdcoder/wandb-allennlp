@@ -29,7 +29,7 @@ def translate(
         if len(kw_val) > 2:
             raise ValueError(f"{possible_kwarg} not in valid form.")
 
-        if len(kw_val) == 2:
+        elif len(kw_val) == 2:
             k, v = kw_val
             all_args.append(k)
             # pass through yaml.load to handle
@@ -55,10 +55,14 @@ def translate(
             else:
                 hparams[pattern.sub("", k)] = v
 
+        elif len(kw_val) == 1:
+            all_args.append(kw_val) # possible non-kwarg or store_true flag
         else:
             logger.warning(
-                f"{kw_val} not a know argument for allennlp train "
+                f"{kw_val} not a know argument for allennlp train, "
                 "or in --hyperparam=value form required for hyperparam overrides"
+                "or a non-kwarg, "
+                "or a boolean --flag"
                 ". Will be ignored by train_with_wandb command."
             )
 
