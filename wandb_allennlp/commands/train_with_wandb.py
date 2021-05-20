@@ -113,6 +113,12 @@ class TrainWithWandb(WandbParserBase):
     ) -> argparse.ArgumentParser:
         # we use the same args as the allennlp train command
         # except the --overrides
+        # and param_path because
+        # overrides is something we will create
+        # and param_path is not a kwarg and hence is always required
+        # We cannot have a compulsory arg here because if we do and 
+        # we are not trying to call train_with_wandb but some other command
+        # The call feeler call to parse_know_args() will throw an error.
         subparser.add_argument(
             "param_path",
             type=str,
