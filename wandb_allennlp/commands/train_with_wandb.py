@@ -189,7 +189,12 @@ class TrainWithWandb(WandbParserBase):
             default=[],
             help="additional packages to include",
         )
-
+        # we will not do anything if the subcommand is not train_with_wandb
+        # because otherwise parse_known_args() can throw error or show train_with_wandb's help
+        # even if we are asking for --help for some other command
+        if sys.argv[1] != 'train_with_wandb':
+            subparser.set_defaults(func=main)
+            return subparser
         # Add dynamic args for overrides and env variables
         known_args, hyperparams = subparser.parse_known_args(sys.argv[2:])
         all_args, overrides_json, env_vars = translate(hyperparams)
