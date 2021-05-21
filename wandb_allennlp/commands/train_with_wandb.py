@@ -124,11 +124,6 @@ class TrainWithWandb(WandbParserBase):
         # We cannot have a compulsory arg here because if we do and 
         # we are not trying to call train_with_wandb but some other command
         # The call feeler call to parse_know_args() will throw an error.
-        subparser.add_argument(
-            "param_path",
-            type=str,
-            help="path to parameter file describing the model to be trained",
-        )
 
         subparser.add_argument(
             "-s",
