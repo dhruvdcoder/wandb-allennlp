@@ -76,7 +76,7 @@ class WandbParserBase(Subcommand):
             conflict_handler="resolve",
         )
         subparser.add_argument(
-            "--wandb_id", type=str, required=self.require_run_id
+            "--wandb_run_id", type=str, required=self.require_run_id
         )
         subparser.add_argument(
             "--wandb_entity",
