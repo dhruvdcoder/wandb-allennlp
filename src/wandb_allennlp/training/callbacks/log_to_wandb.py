@@ -4,9 +4,10 @@ from allennlp.common.registrable import Registrable
 from allennlp.training.callbacks.wandb import (
     WandBCallback,
     TrainerCallback,
-    GradientDescentTrainer,
     TensorDict,
 )
+from allennlp.training import GradientDescentTrainer
+
 from allennlp.models.archival import archive_model, verify_include_in_archive
 from wandb_allennlp.utils import read_from_env
 from overrides import overrides
