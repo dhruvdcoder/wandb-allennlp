@@ -1,12 +1,12 @@
 from typing import List, Tuple, Union, Dict, Any, Optional, Callable
 import logging
 from allennlp.common.registrable import Registrable
-from allennlp.training.callbacks.wandb import (
+from allennlp.training.callbacks import (
     WandBCallback,
     TrainerCallback,
-    TensorDict,
 )
 from allennlp.training import GradientDescentTrainer
+from allennlp.data import TensorDict
 
 from allennlp.models.archival import archive_model, verify_include_in_archive
 from wandb_allennlp.utils import read_from_env
