@@ -1,11 +1,33 @@
 from typing import Callable, Optional, List, Dict, Any
 from allennlp.commands.subcommand import Subcommand
 from pathlib import Path
+from wandb_allennlp.utils import read_from_env
 import logging
 import argparse
 import wandb
+import os
 
 logger = logging.getLogger(__name__)
+
+
+class SetWandbEnvVar(argparse.Action):
+    """Used as an action callback in argparse argument to set env vars that are read by wandb.
+
+    Can be used like so: ::
+
+        parser.add_argument('--wandb_entity', type=str, action=SetWandbEnvVar)
+    """
+
+    def __call__(  # type: ignore
+        self,
+        parser: argparse.ArgumentParser,
+        namespace: argparse.Namespace,
+        values: str,
+        option_string: str = None,
+    ) -> None:
+        setattr(namespace, self.dest, values)
+        assert isinstance(values, str)
+        os.environ.update({self.dest.upper(): values})
 
 
 class WandbParserBase(Subcommand):
@@ -76,37 +98,63 @@ class WandbParserBase(Subcommand):
             conflict_handler="resolve",
         )
         subparser.add_argument(
-            "--wandb_run_id", type=str, required=self.require_run_id
+            "--wandb_run_id",
+            type=str,
+            required=self.require_run_id,
+            default=read_from_env("WANDB_RUN_ID"),
         )
         subparser.add_argument(
             "--wandb_entity",
             type=str,
+            action=SetWandbEnvVar,
+            default=read_from_env("WANDB_ENTITY"),
         )
         subparser.add_argument(
             "--wandb_project",
             type=str,
+            action=SetWandbEnvVar,
+            default=read_from_env("WANDB_PROJECT"),
         )
         subparser.add_argument(
-            "--wandb_tags", type=str, help="Comma seperated list of tags."
+            "--wandb_tags",
+            type=str,
+            action=SetWandbEnvVar,
+            help="Comma seperated list of tags.",
         )
-        subparser.add_argument("--wandb_name", type=str)
-        subparser.add_argument("--wandb_group", type=str)
-        subparser.add_argument("--wandb_job_type", type=str)
-        subparser.add_argument("--wandb_notes", type=str)
-        subparser.add_argument("--wandb_dir", type=str)
-        subparser.add_argument("--wandb_sync_tensorboard", action="store_true")
+        subparser.add_argument("--wandb_name", action=SetWandbEnvVar, type=str)
+        subparser.add_argument(
+            "--wandb_group", action=SetWandbEnvVar, type=str
+        )
+        subparser.add_argument(
+            "--wandb_job_type", action=SetWandbEnvVar, type=str
+        )
+        subparser.add_argument(
+            "--wandb_notes", action=SetWandbEnvVar, type=str
+        )
+        subparser.add_argument(
+            "--wandb_dir",
+            type=str,
+            action=SetWandbEnvVar,
+            default=wandb.sdk.wandb_settings.get_wandb_dir(
+                read_from_env("WANDB_DIR") or ""
+            ),
+        )
+        # subparser.add_argument("--wandb_sync_tensorboard", action="store_true")
         subparser.add_argument(
             "--wandb_config_exclude_keys",
-            type=lambda x: x.split(","),
+            type=str,
+            action=SetWandbEnvVar,
             help="Comma seperated list.",
         )
         subparser.add_argument(
             "--wandb_config_include_keys",
-            type=lambda x: x.split(","),
+            type=str,
+            action=SetWandbEnvVar,
             help="Comma seperated list.",
         )
         subparser.add_argument(
             "--wandb_mode",
+            action=SetWandbEnvVar,
             choices=["online", "offline", "disabled"],
             default="online",
         )

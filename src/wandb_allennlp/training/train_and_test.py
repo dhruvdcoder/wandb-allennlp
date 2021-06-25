@@ -4,6 +4,7 @@ from allennlp.commands.train import TrainModel
 from allennlp.commands import Subcommand
 from allennlp.common import util as common_util
 from allennlp.training import util as training_util
+from wandb_allennlp.utils import read_from_env
 import os
 import logging
 
@@ -60,4 +61,13 @@ class TrainTestAndLogToWandb(TrainModel):
             log=True,
         )
         # update the summary with all metrics
-        wandb.run.summary.update(metrics)
+        run = wandb.init(
+            id=read_from_env("WANDB_RUN_ID"),
+            project=read_from_env("WANDB_PROJECT"),
+            entity=read_from_env("WANDB_ENTITY"),
+            resume="must",
+        )
+
+        if run is not None:
+            logger.info("Updating summary on wandb.")
+            run.summary.update(metrics)
