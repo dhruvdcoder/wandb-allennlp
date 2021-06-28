@@ -7,7 +7,6 @@ def test_run(script_runner):
         "--wandb_project=wandb-allennlp-wandb_allennlp_tests",
         "--wandb_name=plugging_test_run",
         "--include-package=models",
-        "--include-package=allennlp_models",
         "--env.a=1.1",
         "--env.bool_value=true",
         "--env.int_value=10",

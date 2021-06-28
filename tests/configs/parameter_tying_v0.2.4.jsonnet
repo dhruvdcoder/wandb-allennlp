@@ -42,6 +42,12 @@ local int_value = std.parseJson(std.extVar('int_value'));
     },
     cuda_device: -1,
     num_epochs: 2,
-    callbacks: ['log_metrics_to_wandb'],
+    callbacks: [
+      {
+        type: 'wandb_allennlp',
+        files_to_save: ['config.json'],
+        files_to_save_at_end: ['*.tar.gz'],
+      },
+    ],
   },
 }

@@ -13,6 +13,7 @@ from wandb_allennlp.utils import read_from_env
 from overrides import overrides
 import os
 import torch
+from .utils import flatten_dict
 
 logger = logging.getLogger(__name__)
 
@@ -114,7 +115,7 @@ class AllennlpWandbCallback(WandBCallback):
         group: Optional[str] = None,
         name: Optional[str] = None,
         notes: Optional[str] = None,
-        tags: Optional[List[str]] = None,
+        tags: Optional[Union[str, List[str]]] = None,
         watch_model: bool = True,
         files_to_save: List[str] = ["config.json", "out.log"],
         files_to_save_at_end: Optional[List[str]] = None,
@@ -148,6 +149,12 @@ class AllennlpWandbCallback(WandBCallback):
                     str(k)[:15].ljust(15),
                     str(v)[:50].ljust(50),
                 )
+        t = read_from_env("WANDB_TAGS") or tags
+
+        if isinstance(t, str):
+            tags = t.split(",")
+        else:
+            tags = t
         super().__init__(
             serialization_dir,
             summary_interval=summary_interval,
@@ -161,7 +168,7 @@ class AllennlpWandbCallback(WandBCallback):
             group=read_from_env("WANDB_GROUP") or group,
             name=read_from_env("WANDB_NAME") or name,
             notes=read_from_env("WANDB_NOTES") or notes,
-            tags=read_from_env("WANDB_TAGS") or tags,
+            tags=tags,
             watch_model=watch_model,
             files_to_save=tuple(files_to_save),
             wandb_kwargs=wandb_kwargs,
@@ -181,6 +188,11 @@ class AllennlpWandbCallback(WandBCallback):
 
         if "dir" in self._wandb_kwargs:
             self._wandb_kwargs["dir"] = None
+
+        if "config" in self._wandb_kwargs:
+            self._wandb_kwargs["config"] = flatten_dict(
+                self._wandb_kwargs["config"]
+            )
 
     def on_start(
         self,
