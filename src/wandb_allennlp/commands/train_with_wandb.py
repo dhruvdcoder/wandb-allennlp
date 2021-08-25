@@ -13,8 +13,17 @@ from datetime import datetime
 from pathlib import Path
 from wandb_allennlp.config import ALLENNLP_SERIALIZATION_DIR
 import shortuuid
+import signal
 
 logger = logging.getLogger(__name__)
+
+
+class SigTermInterrupt(Exception):
+    pass
+
+
+def raise_sigterm_inturrupt(sig: int, frame):
+    raise SigTermInterrupt
 
 
 def generate_serialization_dir(wandb_run_id: Optional[str] = None) -> Path:
@@ -293,6 +302,10 @@ def main(args: argparse.Namespace) -> None:
     #       as the root dir.
     #   2. If run_id cannot be obtained, we will generate a random id and treat
     #       it as run_id to generate a serialization-dir in ALLENNLP_SERIALIZATION_DIR
+    
+    # install hander for SIGTERM
+    # See: https://github.com/allenai/allennlp/issues/5369
+    signal.signal(signal.SIGTERM, raise_sigterm_inturrupt)
 
     if args.serialization_dir is None:
         args.serialization_dir = generate_serialization_dir(args.wandb_run_id)
