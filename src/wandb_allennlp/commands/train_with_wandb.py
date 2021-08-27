@@ -112,7 +112,7 @@ def translate(
     return all_args, hparams, env
 
 
-@Subcommand.register("train_with_wandb")
+@Subcommand.register("train-with-wandb")
 class TrainWithWandb(WandbParserBase):
     description = "Train with logging to wandb"
     help_message = (

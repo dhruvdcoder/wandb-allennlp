@@ -6,13 +6,7 @@ local int_value = std.parseJson(std.extVar('int_value'));
   type: 'train_test_log_to_wandb',
   evaluate_on_test: true,
   dataset_reader: {
-    type: 'snli',
-    token_indexers: {
-      tokens: {
-        type: 'single_id',
-        lowercase_tokens: true,
-      },
-    },
+    type: 'dummy',
   },
   train_data_path: data_path + '/snli_1.0_test/snli_1.0_train.jsonl',
   validation_data_path: data_path + '/snli_1.0_test/snli_1.0_dev.jsonl',
@@ -21,6 +15,7 @@ local int_value = std.parseJson(std.extVar('int_value'));
     type: 'parameter-tying',
     a: a,
     b: a,
+    d: 0,
     bool_value: bool_value,
     bool_value_not: !bool_value,
     int_value: int_value,
@@ -28,10 +23,7 @@ local int_value = std.parseJson(std.extVar('int_value'));
 
   },
   data_loader: {
-    batch_sampler: {
-      type: 'bucket',
-      batch_size: 64,
-    },
+    batch_size: 2,
   },
   trainer: {
     optimizer: {
