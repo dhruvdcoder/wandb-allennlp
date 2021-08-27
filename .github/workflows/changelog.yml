@@ -1,0 +1,66 @@
+name: Changelog Generator
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  generate_changelog_file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+          token: {% raw %}${{ secrets.GH_TOKEN }}{% endraw %} # Need to use token to commit the changelog as admin.
+
+    - name: Generate changelog
+      uses: heinrichreimer/github-changelog-generator-action@v2.2
+      with:
+        token: {% raw %} ${{ secrets.GH_TOKEN }} {% endraw %}
+        author: true
+        unreleased: true
+        unreleasedLabel: "🚧Unreleased🚧"
+        issues: true
+        pullRequests: true
+        prWoLabels: true
+        compareLink: true
+        output: CHANGELOG.md
+        breakingLabel: "### 💥 Breaking Changes:"
+        breakingLabels: "breaking"
+        deprecatedLabel: "### 👋 Depricated"
+        deprecatedLabels: "deprecation"
+        enhancementLabel: "### ✨ Features and Enhancements:"
+        enhancementLabels: "enhancement"
+        bugsLabel: "### 🐛 Bug Fixes:"
+        bugLabels: "bug,bug-fix,fix,fixes"
+        removedLabel: '### 🗑️ Removals:'
+        removedLabels: 'removal'
+        addSections: >-
+                {
+                        "documentation": {
+                                "prefix":"### 📖 Documentation updates",
+                                "labels":["documentation"]
+                        },
+                        "style": {
+                                "prefix":"### 💄 Style",
+                                "labels":["style"]
+                        },
+                        "dependencies": {
+                                "prefix":"### 📦 Dependencies",
+                                "labels":["dependencies"]
+                        },
+                        "refactoring": {
+                                "prefix":"### 🔨 Refactoring",
+                                "labels":["refactoring"]
+                        },
+                        "ci":{
+                                "prefix":"### 👷 Testing and CI",
+                                "labels":["ci", "test", "testing", "tests", "build"]
+                        }
+                }
+        # See: emojipedia.org for emoji codes
+    - name: Commit CHANGELOG.md
+      uses: EndBug/add-and-commit@v7 # You can change this to use a specific version
+      if: success()
+      with:
+        add: 'CHANGELOG.md'

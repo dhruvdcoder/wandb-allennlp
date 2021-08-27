@@ -9,7 +9,7 @@ def test_sweep(script_runner):
         "wandb",
         "agent",
         "--count=1",
-        "dhruveshpate/wandb-allennlp-wandb_allennlp_tests/k1a8rfwt",
+        "dhruveshpate/wandb-allennlp-wandb_allennlp_tests/rttyf5i3",
     )
     assert ret.success
     assert "wandb: Program ended successfully." in ret.stderr

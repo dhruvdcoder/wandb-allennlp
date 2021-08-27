@@ -1,7 +1,11 @@
+from typing import List, Tuple, Union, Dict, Any, Optional
 import torch
 import allennlp
 from allennlp.models import Model
 from allennlp.data.vocabulary import Vocabulary
+from allennlp.data.dataset_readers import DatasetReader
+from allennlp.data.fields import TensorField
+from allennlp.data.instance import Instance
 
 
 @Model.register("dummy")
@@ -47,7 +51,14 @@ class DummyModel(Model):
         assert d == 1
         self.x = 0
 
-    def forward(self, *args, **kwargs):
+    def forward(self, *args: Any, **kwargs: Any):
         self.x += 1
 
         return {"loss": self.a * self.x + self.b + self.param}
+
+
+@DatasetReader.register("dummy")
+class Dummy(DatasetReader):
+    def _read(self, file_path: str):
+        for i in range(10):
+            yield Instance({"x": TensorField(torch.tensor([i]))})
