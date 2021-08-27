@@ -1,11 +1,11 @@
 def test_run(script_runner):
     ret = script_runner.run(
         "allennlp",
-        "train_with_wandb",
+        "train-with-wandb",
         "configs/parameter_tying_v0.2.4.jsonnet",
-        "--wandb_entity=dhruveshpate",
-        "--wandb_project=wandb-allennlp-wandb_allennlp_tests",
-        "--wandb_name=plugging_test_run",
+        "--wandb-entity=dhruveshpate",
+        "--wandb-project=wandb-allennlp-wandb_allennlp_tests",
+        "--wandb-name=plugging_test_run",
         "--include-package=models",
         "--env.a=1.1",
         "--env.bool_value=true",

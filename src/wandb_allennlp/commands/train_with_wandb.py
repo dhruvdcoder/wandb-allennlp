@@ -22,7 +22,10 @@ class SigTermInterrupt(Exception):
     pass
 
 
-def raise_sigterm_inturrupt(sig: int, frame):
+def raise_sigterm_inturrupt(sig: int, frame: Any) -> None:
+    logger.info(
+        "Installed a handler for SIGTERM. It will raise SigTermInterrupt."
+    )
     raise SigTermInterrupt
 
 
@@ -114,7 +117,12 @@ class TrainWithWandb(WandbParserBase):
     description = "Train with logging to wandb"
     help_message = (
         "Use `allennlp train_with_wandb` subcommand instead of "
-        "`allennp train` to log training to wandb"
+        "`allennp train` to log training to wandb. "
+        "It supports all the arguments present in `allennlp train`. "
+        "However, the --overrides have to be specified in the `--kw value` or `--kw=value` form, "
+        "where 'kw' is the parameter to override and 'value' is its value. "
+        "Use the dot notation for nested parameters. "
+        "For instance, {'model': {'embedder': {'type': xyz}}} can be provided as --model.embedder.type xyz"
     )
     require_run_id = False
     wandb_common_args = ["entity", "project", "notes", "group", "tags"]
@@ -223,7 +231,7 @@ class TrainWithWandb(WandbParserBase):
 
         ######## Begin: Specific keyword arguments for `allennlp train_with_wandb`##########
         subparser.add_argument(
-            "--early_init",
+            "--early-init",
             action="store_true",
             default=False,
             help=(
@@ -235,7 +243,7 @@ class TrainWithWandb(WandbParserBase):
             ),
         )
         subparser.add_argument(
-            "--wandb_allennlp_files_to_save",
+            "--wandb-allennlp-files-to-save",
             type=str,
             action="append",
             default=[],
@@ -250,7 +258,7 @@ class TrainWithWandb(WandbParserBase):
         # because otherwise parse_known_args() can throw error or show train_with_wandb's help
         # even if we are asking for --help for some other command
 
-        if sys.argv[1] != "train_with_wandb":
+        if sys.argv[1] != "train-with-wandb":
             subparser.set_defaults(func=main)
 
             return subparser
@@ -267,7 +275,7 @@ class TrainWithWandb(WandbParserBase):
         for arg in all_args:
             subparser.add_argument(f"{arg}")
 
-        # Add the arguments that we held out due to the feeler call to parse_known_args()
+        # Add the rest of the arguments of `allennlp train` that we held out due to the feeler call to parse_known_args()
         subparser.add_argument(
             "-o",
             "--overrides",
@@ -302,12 +310,13 @@ def main(args: argparse.Namespace) -> None:
     #       as the root dir.
     #   2. If run_id cannot be obtained, we will generate a random id and treat
     #       it as run_id to generate a serialization-dir in ALLENNLP_SERIALIZATION_DIR
-    
+
     # install hander for SIGTERM
     # See: https://github.com/allenai/allennlp/issues/5369
     signal.signal(signal.SIGTERM, raise_sigterm_inturrupt)
 
     if args.serialization_dir is None:
+        logging.info(f"Set set serialization_dir as {args.serialization_dir}")
         args.serialization_dir = generate_serialization_dir(args.wandb_run_id)
 
     if args.early_init:
