@@ -1,0 +1,1 @@
+from wandb_allennlp.training.callbacks import log_to_wandb

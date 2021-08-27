@@ -1,0 +1,13 @@
+mypy
+pytest
+pytest-console-scripts==1.1.0
+black
+pytest-flake8
+flake8
+flake8-docstrings
+flake8-annotations
+flake8-black
+pre-commit
+darglint
+coverage
+allennlp-models

@@ -1,29 +1,29 @@
 # wandb-allennlp
+
+
+![Tests](https://github.com/dhruvdcoder/wandb-allennlp/workflows/Tests/badge.svg)
+
+
 Utilities and boilerplate code which allows using [Weights & Biases](https://www.wandb.com/) to tune the hypereparameters for any AllenNLP model **without a single line of extra code!**
 
-# Features
+# What does it do?
 
 1. Log a single run or a hyperparameter search sweep without any extra code, just using configuration files.
 
-2. Use [Weights & Biases](https://www.wandb.com/) bayesian hyperparameter search engine + hyperband in any AllenNLP project.
+2. Use [Weights & Biases'](https://www.wandb.com/) bayesian hyperparameter search engine + hyperband in any AllenNLP project.
 
-3. Works with any AllenNLP version > 0.9 (including the latest 1.0.0).
 
-4. (Coming Soon) Running parallel bayesian hyperparameter search for any AllenNLP model on a slurm managed cluster using [Weights & Biases](https://www.wandb.com/). Again without a single line of extra code.
-
-5. (Coming Soon) Support for parameter tying to set values for interdependent hyperparameters like hidden dimension for consecutive layers. See "Advanced Use" section below.
-
-# Status
-
-![Tests](https://github.com/dhruvdcoder/wandb-allennlp/workflows/Tests/badge.svg)
 
 # Quick start
 
 ## Installation
 
 ```
-pip install wandb-allennlp
+$ pip install wandb-allennlp
+$ echo wandb_allennlp >> .allennlp_plugins
 ```
+
+
 
 ## Log a single run
 
@@ -31,7 +31,6 @@ pip install wandb-allennlp
 
 2. Add a trainer callback in your config file. Use one of the following based on your AllenNLP version:
 
-For allennlp v0.9:
 
 ```
 ...,
@@ -40,11 +39,11 @@ trainer: {
     type: 'callback',
     callbacks: [
       ...,
-
       {
-        type: 'log_metrics_to_wandb',
+        type: 'wandb_allennlp',
+        files_to_save: ['config.json'],
+        files_to_save_at_end: ['*.tar.gz'],
       },
-
       ...,
     ],
     ...,
@@ -53,52 +52,10 @@ trainer: {
 ...
 ```
 
-For allennlp v1.x :
+2. Execute the `allennlp train-with-wandb` command instead of `allennlp train`. It supports all the arguments present in `allennlp train`. However, the `--overrides` have to be specified in the `--kw value` or `--kw=value` form, where `kw` is the parameter to override and `value` is its value. Use the dot notation for nested parameters. For instance, `{'model': {'embedder': {'type': xyz}}}` can be provided as `--model.embedder.type xyz`.
 
 ```
-...
-
-trainer: {
-    epoch_callbacks: [
-      ...,
-
-      {
-        type: 'log_metrics_to_wandb',
-      },
-
-      ...,
-    ],
-    ...,
-}
-...
-...
-```
-
-For allennlp v2.x :
-
-```
-...
-
-trainer: {
-    callbacks: [
-      ...,
-
-      {
-        type: 'log_metrics_to_wandb',
-      },
-
-      ...,
-    ],
-    ...,
-}
-...
-...
-```
-
-2. Execute the following command instead of `allennlp train`:
-
-```
-wandb_allennlp --subcommand=train --config_file=model_configs/my_config.jsonnet --include-package=package_with_my_registered_classes --include-package=another_package --wandb_run_name=my_first_run --wandb_tags=any,set,of,non-unique,tags,that,identify,the,run,without,spaces
+allennlp  train-with-wandb model_configs/my_config.jsonnet --include-package=package_with_my_registered_classes --include-package=another_package --wandb-run-name=my_first_run --wandb-tags=any,set,of,non-unique,tags,that,identify,the,run,without,spaces
 
 ```
 
@@ -108,174 +65,78 @@ wandb_allennlp --subcommand=train --config_file=model_configs/my_config.jsonnet 
 1. Create your model using AllenNLP along with a *training configuration* file as you would normally do. For example:
 
 ```
-{
-    "dataset_reader": {
-        "type": "snli",
-        "token_indexers": {
-            "tokens": {
-                "type": "single_id",
-                "lowercase_tokens": true
-            }
-        }
-    },
-  "train_data_path": std.extVar("DATA_PATH")+"/snli_1.0_test/snli_1.0_train.jsonl",
-  "validation_data_path": std.extVar("DATA_PATH")+ "/snli_1.0_test/snli_1.0_dev.jsonl",
-    "model": {
-            "type": "nli-seq2vec",
-	    "input_size": 50,
-            "hidden_size": 50,
-            "rnn": "LSTM",
-            "num_layers": 1,
-            "bidirectional": true,
-	    "projection_size": 50,
-            "debug": false
-
-    },
-    "iterator": {
-        "type": "bucket",
-        "sorting_keys": [["premise", "num_tokens"],
-                         ["hypothesis", "num_tokens"]],
-        "batch_size": 32
-    },
-    "trainer": {
-		"type":"callback",
-		"callbacks":[
-			{
-				"type": "validate"
-			},
-			{
-				"type": "checkpoint",
-				"checkpointer":{
-					"num_serialized_models_to_keep":1
-				}
-			},
-			{
-				"type": "track_metrics",
-				"patience": 10,
-				"validation_metric": "+accuracy"
-			},
-			{
-				"type": "log_metrics_to_wandb" ###### Don't forget to include this callback.
-			}
-		],
-		"optimizer": {
-			"type": "adam",
-			"lr":0.01,
-			"weight_decay": 0.01
-		},
-		"cuda_device": -1,
-		"num_epochs": 10,
-		"shuffle": true
-	}
-}
-```
-
-2. Create a *sweep configuration* file and generate a sweep on the wandb server. For example:
-
-```
-name: nli_lstm
-program: wandb_allennlp
-method: bayes
-## Do not for get to use the command keyword to specify the following command structure
-command:
-  - ${program} #omit the interpreter as we use allennlp train command directly
-  - "--subcommand=train"
-  - "--include-package=models" # add all packages containing your registered classes here
-  - "--config_file=configs/lstm_nli.jsonnet"
-  - ${args}
-metric:
-  name: best_validation_accuracy
-  goal: maximize
-parameters:
-  # hyperparameters start with overrides
-  # Ranges
-  model.input_size:
-    min: 100
-    max: 500
-    distribution: q_uniform
-  model.hidden_size:
-    min: 100
-    max: 500
-    distribution: q_uniform
-  model.projection_size:
-    min: 50
-    max: 1000
-    distribution: q_uniform
-  model.num_layers:
-    values: [1,2,3]
-  model.bidirectional:
-    value: "true"
-  trainer.optimizer.lr:
-    min: -7.0
-    max: 0
-    distribution: log_uniform
-  trainer.optimizer.weight_decay:
-    min: -12.0
-    max: -5.0
-    distribution: log_uniform
-  model.type:
-    value: nli-lstm
-```
-
-4. Set the necessary environment variables.
-
-```
-export DATA_DIR=./data
-```
-
-5. Start the search agents.
-
-```
-wandb agent <sweep_id>
-```
-
-
-# Advanced Use
-
-## Parameter tying
-
-1. Define a new jsonnet config file with source/common parameters at the top level. Set the values of these through `extVar`. Make sure to use `parseJson` to get the correct type on all of these variables.
-
-```
-\\ model_config.jsonnet
 local data_path = std.extVar('DATA_PATH');
-
-\\ Special common or tying parameters
 local a = std.parseJson(std.extVar('a'));
 local bool_value = std.parseJson(std.extVar('bool_value'));
 local int_value = std.parseJson(std.extVar('int_value'));
 
-
 {
+  type: 'train_test_log_to_wandb',
+  evaluate_on_test: true,
   dataset_reader: {
-    ...
+    type: 'snli',
+    token_indexers: {
+      tokens: {
+        type: 'single_id',
+        lowercase_tokens: true,
+      },
+    },
   },
-  ...
+  train_data_path: data_path + '/snli_1.0_test/snli_1.0_train.jsonl',
+  validation_data_path: data_path + '/snli_1.0_test/snli_1.0_dev.jsonl',
+  test_data_path: data_path + '/snli_1.0_test/snli_1.0_test.jsonl',
   model: {
     type: 'parameter-tying',
     a: a,
-    b: a, // a tied parameter
+    b: a,
+    d: 0,
     bool_value: bool_value,
-    bool_value_not: !bool_value, // tied parameter
+    bool_value_not: !bool_value,
     int_value: int_value,
-    int_value_10: int_value + 10, // another tied parameter
-    ...
+    int_value_10: int_value + 10,
 
   },
-  ...
+  data_loader: {
+    batch_sampler: {
+      type: 'bucket',
+      batch_size: 64,
+    },
+  },
   trainer: {
-    ...
-    callbacks: ['log_metrics_to_wandb'],
+    optimizer: {
+      type: 'adam',
+      lr: 0.001,
+      weight_decay: 0.0,
+    },
+    cuda_device: -1,
+    num_epochs: 2,
+    callbacks: [
+      {
+        type: 'wandb_allennlp',
+        files_to_save: ['config.json'],
+        files_to_save_at_end: ['*.tar.gz'],
+      },
+    ],
   },
 }
 ```
 
-In your sweep config, use `env.` to set these top level parameters.
+2. Create a *sweep configuration* file and generate a sweep on the wandb server. Note that the tied parameters that are accepted through environment variables are specified using the prefix `env.` in the sweep config. For example:
 
 ```
-#sweep.yaml
-
-...
+name: parameter_tying_test_console_script_v0.2.4
+program: allennlp
+command:
+  - ${program} #omit the interpreter as we use allennlp train command directly
+  - "train_with_wandb" # subcommand
+  - "configs/parameter_tying_v0.2.4.jsonnet"
+  - "--include-package=models" # add all packages containing your registered classes here
+  - "--include-package=allennlp_models"
+  - ${args}
+method: bayes
+metric:
+  name: training_loss
+  goal: minimize
 parameters:
   # hyperparameters start with overrides
   # Ranges
@@ -288,9 +149,23 @@ parameters:
     values: [true, false]
   env.int_value:
     values: [-1, 0, 1, 10]
+  model.d:
+    value: 1
+```
+3. Create the sweep on wandb.
+
+```
+$ wandb sweep path_to_sweep.yaml
 ```
 
+4. Set the other environment variables required by your jsonnet.
 
+```
+export DATA_DIR=./data
+```
 
+5. Start the search agents.
 
-For detailed instructions and example see [this tutorial](http://dhruveshp.com/machinelearning/wandb-allennlp/). For an example using [allennlp-models](https://github.com/allenai/allennlp-models) see the [examples](examples) directory.
+```
+wandb agent <sweep_id>
+```
