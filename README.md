@@ -128,7 +128,7 @@ name: parameter_tying_test_console_script_v0.2.4
 program: allennlp
 command:
   - ${program} #omit the interpreter as we use allennlp train command directly
-  - "train_with_wandb" # subcommand
+  - "train-with-wandb" # subcommand
   - "configs/parameter_tying_v0.2.4.jsonnet"
   - "--include-package=models" # add all packages containing your registered classes here
   - "--include-package=allennlp_models"
