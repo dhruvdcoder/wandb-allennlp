@@ -13,7 +13,7 @@ install_requires = [
 
 setup(
     name="wandb_allennlp",
-    version="0.2.4",
+    version="0.3.0",
     author="Dhruvesh Patel",
     author_email="1793dnp@gmail.com",
     description="Utilities to use allennlp with wandb",

@@ -3,4 +3,4 @@ import wandb_allennlp.commands
 import wandb_allennlp.training
 import os
 
-__version__ = "0.2.4"
+__version__ = "0.3.0"
