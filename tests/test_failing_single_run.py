@@ -21,8 +21,14 @@ def test_run_fail_and_dont_close(script_runner):
         "--env.call_finish_on_end=false",
     )
     assert not ret.success
-    assert "wandb: Program ended successfully." not in ret.stderr
-    assert "wandb: Program failed with code 1" in ret.stderr
+    assert not (
+        "(success)." in ret.stderr
+        or "wandb: Program ended successfully." in ret.stderr
+    )
+    assert (
+        "(failed 1)" in ret.stderr
+        or "wandb: Program failed with code 1" in ret.stderr
+    )
 
 
 def test_run_fail_and_close(script_runner):
@@ -48,5 +54,11 @@ def test_run_fail_and_close(script_runner):
         "--env.call_finish_on_end=true",
     )
     assert not ret.success
-    assert "wandb: Program ended successfully." in ret.stderr
-    assert "wandb: Program failed with code 1" not in ret.stderr
+    assert (
+        "(success)." in ret.stderr
+        or "wandb: Program ended successfully." in ret.stderr
+    )
+    assert not (
+        "(failed 1)" in ret.stderr
+        or "wandb: Program failed with code 1" in ret.stderr
+    )

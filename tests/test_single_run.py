@@ -14,5 +14,11 @@ def test_run(script_runner):
         "--env.call_finish_on_end=false",
     )
     assert ret.success
-    assert "wandb: Program ended successfully." in ret.stderr
-    assert "wandb: Program failed with code 1" not in ret.stderr
+    assert (
+        "(success)." in ret.stderr
+        or "wandb: Program ended successfully." in ret.stderr
+    )
+    assert not (
+        "(failed 1)" in ret.stderr
+        or "wandb: Program failed with code 1" in ret.stderr
+    )
