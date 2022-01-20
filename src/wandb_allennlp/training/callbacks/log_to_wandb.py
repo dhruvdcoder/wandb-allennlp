@@ -5,6 +5,7 @@ from allennlp.training.callbacks import (
     WandBCallback,
     TrainerCallback,
 )
+from allennlp.training.callbacks.log_writer import LogWriterCallback
 from allennlp.training import GradientDescentTrainer
 from allennlp.data import TensorDict
 
@@ -122,6 +123,7 @@ class AllennlpWandbCallback(WandBCallback):
         include_in_archive: List[str] = None,
         save_model_archive: bool = True,
         wandb_kwargs: Optional[Dict[str, Any]] = None,
+        finish_on_end: bool = False,
         sub_callbacks: Optional[List[AllennlpWandbSubCallback]] = None,
     ) -> None:
         logger.debug("Wandb related varaibles")
@@ -173,6 +175,7 @@ class AllennlpWandbCallback(WandBCallback):
             files_to_save=tuple(files_to_save),
             wandb_kwargs=wandb_kwargs,
         )
+        self.finish_on_end = finish_on_end
         self._files_to_save_at_end = files_to_save_at_end or []
         self.include_in_archive = include_in_archive
         verify_include_in_archive(include_in_archive)
@@ -311,4 +314,7 @@ class AllennlpWandbCallback(WandBCallback):
                     policy="end",
                 )
 
-        super().close()
+        LogWriterCallback.close()
+
+        if self.finish_on_end:
+            wandb.finish()

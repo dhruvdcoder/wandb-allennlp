@@ -61,12 +61,16 @@ class TrainTestAndLogToWandb(TrainModel):
             log=True,
         )
         # update the summary with all metrics
-        run = wandb.init(
-            id=read_from_env("WANDB_RUN_ID"),
-            project=read_from_env("WANDB_PROJECT"),
-            entity=read_from_env("WANDB_ENTITY"),
-            resume="must",
-        )
+
+        if wandb.run is None:
+            run = wandb.init(
+                id=read_from_env("WANDB_RUN_ID"),
+                project=read_from_env("WANDB_PROJECT"),
+                entity=read_from_env("WANDB_ENTITY"),
+                resume="must",
+            )
+        else:
+            run = wandb.run
 
         if run is not None:
             logger.info("Updating summary on wandb.")
