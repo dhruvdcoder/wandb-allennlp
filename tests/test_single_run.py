@@ -11,6 +11,7 @@ def test_run(script_runner):
         "--env.bool_value=true",
         "--env.int_value=10",
         "--model.d=1",  # keep this 1
+        "--env.call_finish_on_end=false",
     )
     assert ret.success
     assert "wandb: Program ended successfully." in ret.stderr

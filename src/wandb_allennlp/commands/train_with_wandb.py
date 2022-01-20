@@ -46,6 +46,20 @@ def generate_serialization_dir(wandb_run_id: Optional[str] = None) -> Path:
     return root_dir / s
 
 
+def create_dict_for_numbers(k: str, value: Any) -> Dict:
+    for ki in k.split("."):
+        if ki.isdigit:
+            logger.warning(
+                "Using something like "
+                "--key.0.something.1=value to index into a list is not"
+                " supported while overriding hyperparams."
+                "If you are trying this, you should consider using env"
+                "variable to achive this."
+            )
+
+    return None
+
+
 def translate(
     hyperparams: List[str],
 ) -> Tuple[List[str], Dict[str, Any], Dict[str, Any]]:

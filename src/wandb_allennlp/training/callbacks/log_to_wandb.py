@@ -314,7 +314,7 @@ class AllennlpWandbCallback(WandBCallback):
                     policy="end",
                 )
 
-        LogWriterCallback.close()
+        LogWriterCallback.close(self)
 
         if self.finish_on_end:
             wandb.finish()
