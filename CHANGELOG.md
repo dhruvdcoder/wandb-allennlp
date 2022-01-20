@@ -1,5 +1,13 @@
 # Changelog
 
+## [🚧Unreleased🚧](https://github.com/dhruvdcoder/wandb-allennlp/tree/HEAD)
+
+[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.3.0...HEAD)
+
+### ✨ Features and Enhancements:
+
+- option 'finish\_on\_end' added [\#32](https://github.com/dhruvdcoder/wandb-allennlp/pull/32) ([dhruvdcoder](https://github.com/dhruvdcoder))
+
 ## [v0.3.0](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.3.0) (2021-09-27)
 
 [Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.2.4.beta...v0.3.0)
