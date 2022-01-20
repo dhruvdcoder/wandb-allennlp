@@ -2,7 +2,15 @@
 
 ## [🚧Unreleased🚧](https://github.com/dhruvdcoder/wandb-allennlp/tree/HEAD)
 
-[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.2.3...HEAD)
+[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.3.0...HEAD)
+
+### ✨ Features and Enhancements:
+
+- option 'finish\_on\_end' added [\#32](https://github.com/dhruvdcoder/wandb-allennlp/pull/32) ([dhruvdcoder](https://github.com/dhruvdcoder))
+
+## [v0.3.0](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.3.0) (2021-09-27)
+
+[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.2.4.beta...v0.3.0)
 
 ### 💥 Breaking Changes:
 
@@ -11,11 +19,22 @@
 ### 🐛 Bug Fixes:
 
 - Handle SIGTERM [\#25](https://github.com/dhruvdcoder/wandb-allennlp/issues/25)
-- Multi-GPU training errors [\#11](https://github.com/dhruvdcoder/wandb-allennlp/issues/11)
 
 ### 👷 Testing and CI
 
 - Fix tests [\#27](https://github.com/dhruvdcoder/wandb-allennlp/pull/27) ([dhruvdcoder](https://github.com/dhruvdcoder))
+
+## [v0.2.4.beta](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.4.beta) (2021-08-27)
+
+[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/seal...v0.2.4.beta)
+
+## [seal](https://github.com/dhruvdcoder/wandb-allennlp/tree/seal) (2021-08-25)
+
+[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.2.3...seal)
+
+### 🐛 Bug Fixes:
+
+- Multi-GPU training errors [\#11](https://github.com/dhruvdcoder/wandb-allennlp/issues/11)
 
 ## [v0.2.3](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.3) (2021-02-09)
 

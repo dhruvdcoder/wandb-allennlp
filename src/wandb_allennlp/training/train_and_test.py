@@ -63,6 +63,7 @@ class TrainTestAndLogToWandb(TrainModel):
         # update the summary with all metrics
 
         if wandb.run is None:
+            logger.info("wandb run was closed. Resuming to update summary.")
             run = wandb.init(
                 id=read_from_env("WANDB_RUN_ID"),
                 project=read_from_env("WANDB_PROJECT"),
@@ -70,6 +71,9 @@ class TrainTestAndLogToWandb(TrainModel):
                 resume="must",
             )
         else:
+            logger.info(
+                "There is an active wandb run. Using that to update summary."
+            )
             run = wandb.run
 
         if run is not None:
