@@ -9,11 +9,12 @@ install_requires = [
     "pyyaml",
     "tensorboard",
     "shortuuid",
+    "nltk<3.6.6" # remove this once the support for older versions of ALLENNLP is dropped.
 ]
 
 setup(
     name="wandb_allennlp",
-    version="0.3.0",
+    version="0.3.1",
     author="Dhruvesh Patel",
     author_email="1793dnp@gmail.com",
     description="Utilities to use allennlp with wandb",
