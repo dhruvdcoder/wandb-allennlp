@@ -9,6 +9,7 @@ install_requires = [
     "pyyaml",
     "tensorboard",
     "shortuuid",
+    "nltk<3.6.6" # remove this once the support for older versions of ALLENNLP is dropped.
 ]
 
 setup(
