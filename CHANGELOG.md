@@ -43,7 +43,6 @@
 ### ✨ Features and Enhancements:
 
 - add support for AllenNLP 2.0 \(\#19\) [\#20](https://github.com/dhruvdcoder/wandb-allennlp/pull/20) ([dhruvdcoder](https://github.com/dhruvdcoder))
-- Add model watch option \(\#13\) [\#14](https://github.com/dhruvdcoder/wandb-allennlp/pull/14) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
 ### 🐛 Bug Fixes:
 
@@ -56,6 +55,7 @@
 ### ✨ Features and Enhancements:
 
 - Parameter tying through external variables in jsonnet. [\#15](https://github.com/dhruvdcoder/wandb-allennlp/issues/15)
+- Add model watch option \(\#13\) [\#14](https://github.com/dhruvdcoder/wandb-allennlp/pull/14) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
 ## [v0.2.1](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.1) (2020-10-15)
 
