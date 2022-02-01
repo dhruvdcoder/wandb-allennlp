@@ -135,7 +135,7 @@ class WandbParserBase(Subcommand):
             "--wandb-dir",
             type=str,
             action=SetWandbEnvVar,
-            default=wandb.sdk.wandb_settings.get_wandb_dir(
+            default=wandb.sdk.wandb_settings._get_wandb_dir(
                 read_from_env("WANDB_DIR") or ""
             ),
         )
