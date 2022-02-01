@@ -8,6 +8,7 @@ install_requires = [
     "wandb>=0.8.35",
     "pyyaml",
     "tensorboard",
+    "overrides",
     "shortuuid",
     "nltk<3.6.6" # remove this once the support for older versions of ALLENNLP is dropped.
 ]
