@@ -40,13 +40,10 @@
 
 [Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.2.2...v0.2.3)
 
-### ✨ Features and Enhancements:
-
-- add support for AllenNLP 2.0 \(\#19\) [\#20](https://github.com/dhruvdcoder/wandb-allennlp/pull/20) ([dhruvdcoder](https://github.com/dhruvdcoder))
-
 ### 🐛 Bug Fixes:
 
 - Support flattening of configs with null values [\#18](https://github.com/dhruvdcoder/wandb-allennlp/pull/18) ([dhruvdcoder](https://github.com/dhruvdcoder))
+- Check if master before sending config to wandb [\#12](https://github.com/dhruvdcoder/wandb-allennlp/pull/12) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
 ## [v0.2.2](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.2) (2020-11-04)
 
@@ -55,11 +52,8 @@
 ### ✨ Features and Enhancements:
 
 - Parameter tying through external variables in jsonnet. [\#15](https://github.com/dhruvdcoder/wandb-allennlp/issues/15)
+- add support for AllenNLP 2.0 \(\#19\) [\#20](https://github.com/dhruvdcoder/wandb-allennlp/pull/20) ([dhruvdcoder](https://github.com/dhruvdcoder))
 - Add model watch option \(\#13\) [\#14](https://github.com/dhruvdcoder/wandb-allennlp/pull/14) ([dhruvdcoder](https://github.com/dhruvdcoder))
-
-### 🐛 Bug Fixes:
-
-- Check if master before sending config to wandb [\#12](https://github.com/dhruvdcoder/wandb-allennlp/pull/12) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
 ## [v0.2.1](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.1) (2020-10-15)
 
