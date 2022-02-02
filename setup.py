@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 install_requires = [
     "allennlp>=2.5.0,<=2.9.0",
-    "wandb>=0.8.35,<0.12.10",
+    "wandb>=0.8.35,<=0.12.10",
     "pyyaml",
     "tensorboard",
     "shortuuid",
