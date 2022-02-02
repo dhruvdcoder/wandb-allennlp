@@ -7,7 +7,7 @@ import argparse
 import wandb
 import os
 
-wandb_major, wandb_minor, wandb_patch = wandb.__version___.split('.')
+wandb_major, wandb_minor, wandb_patch = wandb.__version__.split('.')
 
 if wandb_minor >=12 or wandb_major > 0:
     wandb_get_dir= wandb.sdk.wandb_settings._get_wandb_dir
