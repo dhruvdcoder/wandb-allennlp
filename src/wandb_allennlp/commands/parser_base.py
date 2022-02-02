@@ -9,7 +9,7 @@ import os
 
 wandb_major, wandb_minor, wandb_patch = wandb.__version__.split('.')
 
-if wandb_minor >=12 or wandb_major > 0:
+if int(wandb_minor) >=12 or int(wandb_major) > 0:
     wandb_get_dir= wandb.sdk.wandb_settings._get_wandb_dir
 else:
     wandb_get_dir= wandb.sdk.wandb_settings.get_wandb_dir
