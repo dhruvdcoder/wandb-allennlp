@@ -7,6 +7,14 @@ import argparse
 import wandb
 import os
 
+wandb_major, wandb_minor, wandb_patch = wandb.__version__.split('.')
+
+if int(wandb_minor) >=12 or int(wandb_major) > 0:
+    wandb_get_dir= wandb.sdk.wandb_settings._get_wandb_dir
+else:
+    wandb_get_dir= wandb.sdk.wandb_settings.get_wandb_dir
+    
+
 logger = logging.getLogger(__name__)
 
 
@@ -135,7 +143,7 @@ class WandbParserBase(Subcommand):
             "--wandb-dir",
             type=str,
             action=SetWandbEnvVar,
-            default=wandb.sdk.wandb_settings.get_wandb_dir(
+            default=wandb_get_dir(
                 read_from_env("WANDB_DIR") or ""
             ),
         )
