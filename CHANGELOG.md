@@ -16,10 +16,6 @@
 
 - Breaking changes! [\#26](https://github.com/dhruvdcoder/wandb-allennlp/pull/26) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
-### ✨ Features and Enhancements:
-
-- add support for AllenNLP 2.0 \(\#19\) [\#20](https://github.com/dhruvdcoder/wandb-allennlp/pull/20) ([dhruvdcoder](https://github.com/dhruvdcoder))
-
 ### 🐛 Bug Fixes:
 
 - Handle SIGTERM [\#25](https://github.com/dhruvdcoder/wandb-allennlp/issues/25)
@@ -43,6 +39,10 @@
 ## [v0.2.3](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.3) (2021-02-09)
 
 [Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.2.2...v0.2.3)
+
+### ✨ Features and Enhancements:
+
+- add support for AllenNLP 2.0 \(\#19\) [\#20](https://github.com/dhruvdcoder/wandb-allennlp/pull/20) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
 ### 🐛 Bug Fixes:
 
