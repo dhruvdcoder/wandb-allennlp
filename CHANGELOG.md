@@ -57,13 +57,13 @@
 - Parameter tying through external variables in jsonnet. [\#15](https://github.com/dhruvdcoder/wandb-allennlp/issues/15)
 - Add model watch option \(\#13\) [\#14](https://github.com/dhruvdcoder/wandb-allennlp/pull/14) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
-## [v0.2.1](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.1) (2020-10-15)
-
-[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.2.0...v0.2.1)
-
 ### 🐛 Bug Fixes:
 
 - Check if master before sending config to wandb [\#12](https://github.com/dhruvdcoder/wandb-allennlp/pull/12) ([dhruvdcoder](https://github.com/dhruvdcoder))
+
+## [v0.2.1](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.1) (2020-10-15)
+
+[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.2.0...v0.2.1)
 
 ## [v0.2.0](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.0) (2020-06-22)
 
