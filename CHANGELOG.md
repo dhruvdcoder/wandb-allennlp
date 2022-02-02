@@ -19,7 +19,6 @@
 ### 🐛 Bug Fixes:
 
 - Handle SIGTERM [\#25](https://github.com/dhruvdcoder/wandb-allennlp/issues/25)
-- Support flattening of configs with null values [\#18](https://github.com/dhruvdcoder/wandb-allennlp/pull/18) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
 ### 👷 Testing and CI
 
@@ -44,6 +43,10 @@
 ### ✨ Features and Enhancements:
 
 - add support for AllenNLP 2.0 \(\#19\) [\#20](https://github.com/dhruvdcoder/wandb-allennlp/pull/20) ([dhruvdcoder](https://github.com/dhruvdcoder))
+
+### 🐛 Bug Fixes:
+
+- Support flattening of configs with null values [\#18](https://github.com/dhruvdcoder/wandb-allennlp/pull/18) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
 ## [v0.2.2](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.2) (2020-11-04)
 
