@@ -20,10 +20,6 @@
 
 - Handle SIGTERM [\#25](https://github.com/dhruvdcoder/wandb-allennlp/issues/25)
 
-### 👷 Testing and CI
-
-- Fix tests [\#27](https://github.com/dhruvdcoder/wandb-allennlp/pull/27) ([dhruvdcoder](https://github.com/dhruvdcoder))
-
 ## [v0.2.4.beta](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.4.beta) (2021-08-27)
 
 [Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/seal...v0.2.4.beta)
@@ -56,6 +52,10 @@
 
 - Parameter tying through external variables in jsonnet. [\#15](https://github.com/dhruvdcoder/wandb-allennlp/issues/15)
 - Add model watch option \(\#13\) [\#14](https://github.com/dhruvdcoder/wandb-allennlp/pull/14) ([dhruvdcoder](https://github.com/dhruvdcoder))
+
+### 👷 Testing and CI
+
+- Fix tests [\#27](https://github.com/dhruvdcoder/wandb-allennlp/pull/27) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
 ## [v0.2.1](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.2.1) (2020-10-15)
 
