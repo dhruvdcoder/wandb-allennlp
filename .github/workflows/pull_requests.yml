@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.8]
-        allennlp-version: ["2.5.0", "2.8.0", "2.9.0"]
+        python-version: ["3.8", "3.9"]
+        allennlp-version: ["2.5.0", "2.8.0", "2.9.3"]
     env:
       TOXENV: allennlp${{ matrix.allennlp-version }}
     steps:
