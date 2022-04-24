@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 install_requires = [
-    "allennlp>=2.5.0,<=2.9.0",
-    "wandb>=0.10.11,<=0.12.10",
+    "allennlp>=2.5.0,<2.10.0",
+    "wandb>=0.10.11,<=0.12.15",
     "pyyaml",
     "tensorboard",
     "overrides",
@@ -15,7 +15,7 @@ install_requires = [
 
 setup(
     name="wandb_allennlp",
-    version="0.3.1",
+    version="0.3.2",
     author="Dhruvesh Patel",
     author_email="1793dnp@gmail.com",
     description="Utilities to use allennlp with wandb",
