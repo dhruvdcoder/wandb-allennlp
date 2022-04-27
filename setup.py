@@ -10,7 +10,8 @@ install_requires = [
     "tensorboard",
     "overrides",
     "shortuuid",
-    "nltk<3.6.6" # remove this once the support for older versions of ALLENNLP is dropped.
+    # allennlp 2.9+ needs a newer version - this may break older versions
+    # "nltk<3.6.6" # remove this once the support for older versions of ALLENNLP is dropped.
 ]
 
 setup(
