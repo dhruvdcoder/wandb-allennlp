@@ -1,8 +1,8 @@
 # Changelog
 
-## [🚧Unreleased🚧](https://github.com/dhruvdcoder/wandb-allennlp/tree/HEAD)
+## [v0.3.1](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.3.1) (2022-02-02)
 
-[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.3.0...HEAD)
+[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.3.0...v0.3.1)
 
 ### ✨ Features and Enhancements:
 
