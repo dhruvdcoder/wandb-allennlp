@@ -18,17 +18,6 @@ import signal
 logger = logging.getLogger(__name__)
 
 
-class SigTermInterrupt(Exception):
-    pass
-
-
-def raise_sigterm_inturrupt(sig: int, frame: Any) -> None:
-    logger.info(
-        "Installed a handler for SIGTERM. It will raise SigTermInterrupt."
-    )
-    raise SigTermInterrupt
-
-
 def generate_serialization_dir(wandb_run_id: Optional[str] = None) -> Path:
     # ref: https://github.com/wandb/client/blob/c4548d3871c4cbdd8c253e46c912c95205bbc7f6/wandb/sdk/wandb_settings.py#L740
     root_dir = Path(ALLENNLP_SERIALIZATION_DIR)
@@ -325,9 +314,6 @@ def main(args: argparse.Namespace) -> None:
     #   2. If run_id cannot be obtained, we will generate a random id and treat
     #       it as run_id to generate a serialization-dir in ALLENNLP_SERIALIZATION_DIR
 
-    # install hander for SIGTERM
-    # See: https://github.com/allenai/allennlp/issues/5369
-    signal.signal(signal.SIGTERM, raise_sigterm_inturrupt)
 
     if args.serialization_dir is None:
         logging.info(f"Set set serialization_dir as {args.serialization_dir}")
