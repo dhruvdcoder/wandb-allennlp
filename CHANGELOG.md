@@ -20,6 +20,10 @@
 
 [Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.3.0...v0.3.1)
 
+### ✨ Features and Enhancements:
+
+- option 'finish\_on\_end' added [\#32](https://github.com/dhruvdcoder/wandb-allennlp/pull/32) ([dhruvdcoder](https://github.com/dhruvdcoder))
+
 ## [v0.3.0](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.3.0) (2021-09-27)
 
 [Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.2.4.beta...v0.3.0)
@@ -54,7 +58,6 @@
 
 ### ✨ Features and Enhancements:
 
-- option 'finish\_on\_end' added [\#32](https://github.com/dhruvdcoder/wandb-allennlp/pull/32) ([dhruvdcoder](https://github.com/dhruvdcoder))
 - add support for AllenNLP 2.0 \(\#19\) [\#20](https://github.com/dhruvdcoder/wandb-allennlp/pull/20) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
 ### 🐛 Bug Fixes:
