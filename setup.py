@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 install_requires = [
-    "allennlp>=2.5.0,<2.10.0",
-    "wandb>=0.10.11,<=0.12.15",
+    "allennlp>=2.5.0,
+    "wandb>=0.10.11,
     "pyyaml",
     "tensorboard",
     "overrides",
