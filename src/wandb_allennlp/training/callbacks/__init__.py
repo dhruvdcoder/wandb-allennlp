@@ -1,1 +1,2 @@
 from wandb_allennlp.training.callbacks import log_to_wandb
+from wandb_allennlp.training.callbacks.subcallbacks import LogBestValidationMetrics
