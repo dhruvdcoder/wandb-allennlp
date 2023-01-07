@@ -1,12 +1,24 @@
 # Changelog
 
-## [v0.3.1](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.3.1) (2022-02-02)
+## [🚧Unreleased🚧](https://github.com/dhruvdcoder/wandb-allennlp/tree/HEAD)
 
-[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.3.0...v0.3.1)
+[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.3.2...HEAD)
 
 ### ✨ Features and Enhancements:
 
-- option 'finish\_on\_end' added [\#32](https://github.com/dhruvdcoder/wandb-allennlp/pull/32) ([dhruvdcoder](https://github.com/dhruvdcoder))
+- Remove flattening of config [\#40](https://github.com/dhruvdcoder/wandb-allennlp/issues/40)
+
+### 🐛 Bug Fixes:
+
+- The subcallbacks are not automatically loaded [\#36](https://github.com/dhruvdcoder/wandb-allennlp/issues/36)
+
+## [v0.3.2](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.3.2) (2022-06-07)
+
+[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.3.1...v0.3.2)
+
+## [v0.3.1](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.3.1) (2022-02-02)
+
+[Full Changelog](https://github.com/dhruvdcoder/wandb-allennlp/compare/v0.3.0...v0.3.1)
 
 ## [v0.3.0](https://github.com/dhruvdcoder/wandb-allennlp/tree/v0.3.0) (2021-09-27)
 
@@ -42,6 +54,7 @@
 
 ### ✨ Features and Enhancements:
 
+- option 'finish\_on\_end' added [\#32](https://github.com/dhruvdcoder/wandb-allennlp/pull/32) ([dhruvdcoder](https://github.com/dhruvdcoder))
 - add support for AllenNLP 2.0 \(\#19\) [\#20](https://github.com/dhruvdcoder/wandb-allennlp/pull/20) ([dhruvdcoder](https://github.com/dhruvdcoder))
 
 ### 🐛 Bug Fixes:
