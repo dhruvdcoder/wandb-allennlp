@@ -196,6 +196,7 @@ class AllennlpWandbCallback(WandBCallback):
             self._wandb_kwargs["config"] = flatten_dict(
                 self._wandb_kwargs["config"]
             )
+            self._wandb_kwargs["config"]["serialization_dir"] = serialization_dir
 
     def on_start(
         self,
