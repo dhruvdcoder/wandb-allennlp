@@ -4,7 +4,7 @@
 ![Tests](https://github.com/dhruvdcoder/wandb-allennlp/workflows/Tests/badge.svg)
 
 
-Utilities and boilerplate code which allows using [Weights & Biases](https://www.wandb.com/) to tune the hypereparameters for any AllenNLP model **without a single line of extra code!**
+Utilities and boilerplate code which allows using [Weights & Biases](https://www.wandb.com/) to tune the hyperparameters for any AllenNLP model **without a single line of extra code!**
 
 # What does it do?
 
